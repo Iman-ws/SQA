@@ -1,0 +1,2238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SQA Final Prep</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0f172a;
+      --bg2:     #1e293b;
+      --bg3:     #334155;
+      --border:  #334155;
+      --text:    #f1f5f9;
+      --muted:   #94a3b8;
+      --blue:    #3b82f6;
+      --blue2:   #1d4ed8;
+      --green:   #064e3b;
+      --gborder: #34d399;
+      --red:     #7f1d1d;
+      --rborder: #f87171;
+      --orange:  #dc2626;
+    }
+
+    body { font-family: "Inter", sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    /* ── HEADER ─────────────────────────────────── */
+    .hdr {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(15,23,42,.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 20px;
+    }
+    .logo {
+      font-size: 1.2rem; font-weight: 700; cursor: pointer;
+      background: linear-gradient(135deg,#60a5fa,#a78bfa);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hdr-right { display: flex; gap: 10px; align-items: center; }
+    .btn-err {
+      background: transparent; border: 1px solid var(--border);
+      color: #f87171; padding: 6px 14px; border-radius: 8px;
+      cursor: pointer; font: 600 .82rem "Inter",sans-serif;
+      transition: all .2s;
+    }
+    .btn-err:hover { background: rgba(248,113,113,.1); border-color: #f87171; }
+    .btn-lang {
+      background: var(--blue); border: none; color: #fff;
+      padding: 6px 16px; border-radius: 8px; cursor: pointer;
+      font: 700 .82rem "Inter",sans-serif; min-width: 52px;
+      transition: background .2s;
+    }
+    .btn-lang:hover { background: var(--blue2); }
+
+    /* ── CONTAINER ───────────────────────────────── */
+    .wrap { max-width: 740px; margin: 0 auto; padding: 32px 16px; }
+
+    /* ── SCREENS ─────────────────────────────────── */
+    .scr { display: none; }
+    .scr.on { display: block; animation: up .28s ease; }
+    @keyframes up {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── HOME ────────────────────────────────────── */
+    .hero { text-align: center; margin-bottom: 32px; }
+    .hero h2 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+    .hero p  { color: var(--muted); }
+
+    .modes { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+    @media(max-width:480px){ .modes { grid-template-columns: 1fr; } }
+
+    .mode-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 14px; padding: 22px;
+      cursor: pointer; text-align: left;
+      font-family: "Inter",sans-serif; color: var(--text);
+      transition: all .2s;
+    }
+    .mode-card:hover { border-color: var(--blue); background: #1a2e45; transform: translateY(-2px); }
+    .mode-card .ico  { font-size: 1.8rem; margin-bottom: 10px; }
+    .mode-card .ttl  { font-size: .98rem; font-weight: 600; margin-bottom: 4px; }
+    .mode-card .sub  { font-size: .8rem; color: var(--muted); }
+
+    .panel {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 14px; padding: 22px; margin-bottom: 16px;
+    }
+    .panel-label {
+      font-size: .72rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .07em; color: var(--muted); margin-bottom: 14px;
+    }
+
+    .lec-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 9px; }
+    @media(max-width:480px){ .lec-grid { grid-template-columns: repeat(3,1fr); } }
+
+    .btn-lec {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px 6px;
+      cursor: pointer; font: 600 .8rem "Inter",sans-serif;
+      color: var(--muted); transition: all .2s; text-align: center;
+    }
+    .btn-lec span { display:block; font-size:.67rem; font-weight:400; color:#4b5563; margin-top:2px; }
+    .btn-lec:hover { border-color: var(--blue); color: var(--text); background: #1a2e45; }
+
+    .mis-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .mis-row .info h3 { font-size: .98rem; font-weight: 600; margin-bottom: 3px; }
+    .mis-row .info p  { font-size: .8rem; color: var(--muted); }
+    .mis-btns { display: flex; gap: 8px; }
+
+    .btn-s {
+      padding: 7px 16px; border-radius: 8px; cursor: pointer;
+      font: 600 .8rem "Inter",sans-serif; border: none; transition: all .2s;
+    }
+    .btn-s.ghost   { background: var(--bg3); color: var(--muted); }
+    .btn-s.ghost:hover { color: var(--text); background: var(--border); }
+    .btn-s.prim    { background: var(--blue); color: #fff; }
+    .btn-s.prim:hover { background: var(--blue2); }
+    .btn-s.danger  { background: var(--orange); color: #fff; }
+    .btn-s.danger:hover { background: #b91c1c; }
+
+    /* ── QUIZ ────────────────────────────────────── */
+    .qhdr {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 8px; font-size: .83rem; color: var(--muted);
+    }
+    .qtag {
+      font-size: .75rem; font-weight: 600; color: #60a5fa;
+      background: rgba(96,165,250,.12); padding: 3px 10px; border-radius: 20px;
+    }
+    .pbar-wrap { background: var(--bg3); border-radius: 99px; height: 5px; overflow: hidden; margin-bottom: 22px; }
+    .pbar-fill {
+      height: 100%;
+      background: linear-gradient(90deg,#3b82f6,#8b5cf6);
+      border-radius: 99px; transition: width .35s ease;
+    }
+    .qcard {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 16px; padding: 26px; margin-bottom: 18px;
+    }
+    .qcard h2 { font-size: 1.12rem; font-weight: 500; line-height: 1.65; }
+
+    .opts { display: flex; flex-direction: column; gap: 10px; margin-bottom: 22px; }
+    .btn-opt {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 16px;
+      cursor: pointer; text-align: left;
+      font: 500 .92rem "Inter",sans-serif; color: var(--text);
+      display: flex; align-items: center; gap: 12px;
+      transition: all .2s;
+    }
+    .btn-opt:hover:not(:disabled) { border-color: var(--blue); background: #1a2e45; transform: translateX(4px); }
+    .btn-opt:disabled { cursor: default; }
+    .opt-ltr {
+      font-size: .72rem; font-weight: 700; color: var(--muted);
+      background: var(--bg3); width: 26px; height: 26px; min-width: 26px;
+      border-radius: 6px; display: flex; align-items: center; justify-content: center;
+    }
+    .btn-opt.correct { background: var(--green) !important; border-color: var(--gborder) !important; color: #fff; }
+    .btn-opt.correct .opt-ltr { background: rgba(255,255,255,.18); color: #fff; }
+    .btn-opt.wrong   { background: var(--red)   !important; border-color: var(--rborder) !important; color: #fff; }
+    .btn-opt.wrong   .opt-ltr { background: rgba(255,255,255,.18); color: #fff; }
+
+    .qftr { display: flex; justify-content: space-between; align-items: center; }
+    .btn-exit { background: none; border: none; color: var(--muted); cursor: pointer; font: 500 .88rem "Inter",sans-serif; transition: color .2s; }
+    .btn-exit:hover { color: var(--text); }
+    .btn-next {
+      background: var(--blue); border: none; color: #fff;
+      padding: 11px 26px; border-radius: 10px; cursor: pointer;
+      font: 600 .92rem "Inter",sans-serif; transition: all .2s;
+      visibility: hidden;
+    }
+    .btn-next.show { visibility: visible; }
+    .btn-next:hover { background: var(--blue2); transform: translateX(3px); }
+
+    /* ── RESULT ──────────────────────────────────── */
+    .res-wrap { text-align: center; padding: 36px 10px; }
+    .res-emoji { font-size: 3.5rem; margin-bottom: 14px; }
+    .res-wrap h2 { font-size: 1.9rem; font-weight: 700; margin-bottom: 10px; }
+    .res-score { font-size: 2.8rem; font-weight: 700; color: #60a5fa; margin: 14px 0 20px; }
+
+    .stats { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 28px; }
+    .stat {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 22px; min-width: 96px;
+    }
+    .stat .v { font-size: 1.5rem; font-weight: 700; }
+    .stat .l { font-size: .75rem; color: var(--muted); margin-top: 2px; }
+    .stat.ok .v  { color: var(--gborder); }
+    .stat.bad .v { color: var(--rborder); }
+
+    .res-acts { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-l {
+      padding: 12px 26px; border-radius: 12px; cursor: pointer;
+      font: 600 .95rem "Inter",sans-serif; border: none; transition: all .2s;
+    }
+    .btn-l.ghost  { background: var(--bg2); color: var(--text); border: 1px solid var(--border); }
+    .btn-l.ghost:hover { background: var(--bg3); }
+    .btn-l.prim   { background: var(--blue);   color: #fff; }
+    .btn-l.prim:hover  { background: var(--blue2); }
+    .btn-l.danger { background: var(--orange); color: #fff; }
+    .btn-l.danger:hover { background: #b91c1c; }
+
+    /* ── TOAST ───────────────────────────────────── */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      background: var(--bg2); border: 1px solid var(--border);
+      color: var(--text); padding: 10px 22px; border-radius: 10px;
+      font-size: .88rem; opacity: 0; transition: all .3s;
+      z-index: 999; pointer-events: none; white-space: nowrap;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- ─────────── HEADER ─────────── -->
+<header class="hdr">
+  <div class="logo" onclick="App.goHome()">SQA Prep</div>
+  <div class="hdr-right">
+    <button class="btn-err" onclick="App.startMistakes()">
+      ⚠️ Errors: <strong id="hdr-cnt">0</strong>
+    </button>
+    <button class="btn-lang" id="lang-btn" onclick="App.toggleLang()">EN</button>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ─────────── HOME ─────────── -->
+  <div id="scr-home" class="scr on">
+    <div class="hero">
+      <h2>Final Exam Prep</h2>
+      <p>Software Quality Assurance & Testing — 10 Lectures</p>
+    </div>
+
+    <div class="modes">
+      <button class="mode-card" onclick="App.startMode('all')">
+        <div class="ico">🏃</div>
+        <div class="ttl">Marathon</div>
+        <div class="sub" id="all-desc">All questions in order</div>
+      </button>
+      <button class="mode-card" onclick="App.startMode('random')">
+        <div class="ico">🎲</div>
+        <div class="ttl">Random 30</div>
+        <div class="sub">Random mix from all lectures</div>
+      </button>
+    </div>
+
+    <div class="panel">
+      <div class="panel-label">📖 By Lecture</div>
+      <div class="lec-grid" id="lec-grid"><!-- JS fills --></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-label">⚠️ Work on Mistakes</div>
+      <div class="mis-row">
+        <div class="info">
+          <h3 id="mis-count-txt">0 saved mistakes</h3>
+          <p  id="mis-sub">Answer questions to start tracking errors</p>
+        </div>
+        <div class="mis-btns">
+          <button class="btn-s ghost"  onclick="App.clearMistakes()">Clear</button>
+          <button class="btn-s prim"   onclick="App.startMistakes()">Practice</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────── QUIZ ─────────── -->
+  <div id="scr-quiz" class="scr">
+    <div class="qhdr">
+      <span>Question <strong id="q-num">1</strong> / <strong id="q-tot">10</strong></span>
+      <span class="qtag" id="q-tag">Lecture 1</span>
+    </div>
+    <div class="pbar-wrap">
+      <div class="pbar-fill" id="pbar" style="width:0%"></div>
+    </div>
+    <div class="qcard">
+      <h2 id="q-text">Loading…</h2>
+    </div>
+    <div class="opts" id="opts"><!-- JS fills --></div>
+    <div class="qftr">
+      <button class="btn-exit" onclick="App.goHome()">← Exit</button>
+      <button class="btn-next" id="btn-next" onclick="App.next()">Next →</button>
+    </div>
+  </div>
+
+  <!-- ─────────── RESULT ─────────── -->
+  <div id="scr-result" class="scr">
+    <div class="res-wrap">
+      <div class="res-emoji" id="r-emoji">🎉</div>
+      <h2 id="r-title">Session Complete!</h2>
+      <div class="res-score" id="r-score">0 / 0</div>
+      <div class="stats">
+        <div class="stat ok">  <div class="v" id="r-ok">0</div>  <div class="l">Correct</div></div>
+        <div class="stat bad"> <div class="v" id="r-bad">0</div> <div class="l">Wrong</div></div>
+        <div class="stat">     <div class="v" id="r-pct">0%</div><div class="l">Score</div></div>
+      </div>
+      <div class="res-acts">
+        <button class="btn-l ghost"  onclick="App.goHome()">🏠 Home</button>
+        <button class="btn-l prim"   onclick="App.retrySame()">🔄 Retry</button>
+        <button class="btn-l danger" id="r-mis-btn" onclick="App.startMistakes()" style="display:none">
+          🔁 Retry Mistakes
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   📌  ДАННЫЕ / DATA
+   ───────────────────────────────────────────────────────────────
+   Вставь содержимое JSON-файлов в переменные ниже.
+
+   КАК ВСТАВИТЬ:
+   1. Открой sqa_final_quiz_en.json
+   2. Скопируй ВСЕГО содержимое файла (Ctrl+A → Ctrl+C)
+   3. Вставь вместо {} ниже в DATA_EN = { ... }
+   4. То же самое для RU-версии в DATA_RU
+
+   HOW TO PASTE:
+   1. Open sqa_final_quiz_en.json
+   2. Select all content (Ctrl+A) and copy (Ctrl+C)
+   3. Replace {} in DATA_EN with your copied JSON
+   4. Repeat for DATA_RU
+═══════════════════════════════════════════════════════════════ */
+
+// ↓↓↓ PASTE ENGLISH JSON HERE ↓↓↓
+const DATA_EN = {
+  "title": "SQA & Testing Final Exam Preparation",
+  "total_questions": 150,
+  "lectures": [
+    {
+      "lecture_id": 1,
+      "topic": "Introduction to SQA and Testing",
+      "questions": [
+        {
+          "question": "What is the main limitation of testing according to Dijkstra?",
+          "options": ["Testing proves the absence of bugs", "Testing can show the presence of bugs, but not their absence", "Testing is too expensive for complete checks", "Testing cannot be performed without automation"],
+          "answer": "Testing can show the presence of bugs, but not their absence"
+        },
+        {
+          "question": "What is the 'Halting Problem' in the context of testing?",
+          "options": ["The problem of stopping testing due to budget constraints", "A theoretical limitation making it impossible to completely test any non-trivial system", "A situation where the program freezes", "Refusal to test due to deadlines"],
+          "answer": "A theoretical limitation making it impossible to completely test any non-trivial system"
+        },
+        {
+          "question": "How many quality management principles is the ISO 9000 standard based on?",
+          "options": ["5", "7", "10", "12"],
+          "answer": "7"
+        },
+        {
+          "question": "What does the abbreviation CMMI stand for?",
+          "options": ["Capability Maturity Model Integration", "Computer Managed Model Interface", "Common Maturity Method Implementation", "Capability Management Main Integration"],
+          "answer": "Capability Maturity Model Integration"
+        },
+        {
+          "question": "How many maturity levels does the CMMI model have?",
+          "options": ["3", "5", "7", "4"],
+          "answer": "5"
+        },
+        {
+          "question": "Which type of testing verifies the internal code structure and program logic?",
+          "options": ["Black-Box Testing", "White-Box Testing", "Grey-Box Testing", "User Acceptance Testing"],
+          "answer": "White-Box Testing"
+        },
+        {
+          "question": "Which type of testing is performed to ensure critical functions work before launching deep testing?",
+          "options": ["Regression Testing", "Stress Testing", "Smoke Testing", "Performance Testing"],
+          "answer": "Smoke Testing"
+        },
+        {
+          "question": "What is the difference between Sanity Testing and Smoke Testing?",
+          "options": ["Sanity checks new functions or bug fixes (narrow), Smoke checks critical functionality (wide)", "Sanity is done by developers, Smoke by testers", "Smoke is done after release, Sanity before", "They are the same"],
+          "answer": "Sanity checks new functions or bug fixes (narrow), Smoke checks critical functionality (wide)"
+        },
+        {
+          "question": "What status does a bug receive immediately after a tester logs it?",
+          "options": ["New", "Assigned", "Open", "Verified"],
+          "answer": "New"
+        },
+        {
+          "question": "Who decides if a defect is valid after it is moved to 'New' status?",
+          "options": ["Junior Tester", "Project Manager / Lead", "Customer", "Designer"],
+          "answer": "Project Manager / Lead"
+        },
+        {
+          "question": "What status is assigned to a defect if the developer thinks it is not a bug but a feature?",
+          "options": ["Fixed", "Rejected", "Deferred", "Reopened"],
+          "answer": "Rejected"
+        },
+        {
+          "question": "What status does a defect receive if its fix is postponed to the next release?",
+          "options": ["Deferred", "Rejected", "Closed", "Duplicate"],
+          "answer": "Deferred"
+        },
+        {
+          "question": "What happens to a bug if the tester verifies the fix and the problem persists?",
+          "options": ["Closed", "Reopened", "Deferred", "Verified"],
+          "answer": "Reopened"
+        },
+        {
+          "question": "What is Regression Testing?",
+          "options": ["Testing only new features", "Re-testing the system to confirm that changes have not broken old functionality", "Penetration testing", "Documentation testing"],
+          "answer": "Re-testing the system to confirm that changes have not broken old functionality"
+        },
+        {
+          "question": "Which of the following is a practical limitation of testing?",
+          "options": ["Halting Problem", "Ban on using tools", "Time and Cost constraints", "Lack of computers"],
+          "answer": "Time and Cost constraints"
+        }
+      ]
+    },
+    {
+      "lecture_id": 2,
+      "topic": "Software Testing Life Cycle (STLC)",
+      "questions": [
+        {
+          "question": "What does the abbreviation STLC stand for?",
+          "options": ["Software Testing Life Cycle", "System Technical Life Cycle", "Software Test Lead Course", "Standard Testing Logic Code"],
+          "answer": "Software Testing Life Cycle"
+        },
+        {
+          "question": "What are Entry Criteria in STLC?",
+          "options": ["Conditions that must be met before concluding testing", "Prerequisite items that must be completed before testing can begin", "List of bugs to fix", "Criteria for hiring employees"],
+          "answer": "Prerequisite items that must be completed before testing can begin"
+        },
+        {
+          "question": "Which document is created during the Requirement Phase Testing?",
+          "options": ["Test Plan", "RTM (Requirement Traceability Matrix)", "Bug Report", "Test Case"],
+          "answer": "RTM (Requirement Traceability Matrix)"
+        },
+        {
+          "question": "What is the purpose of the RTM?",
+          "options": ["To track tester salaries", "To map requirements to test cases to ensure all requirements are covered", "To generate automated tests", "To plan vacations"],
+          "answer": "To map requirements to test cases to ensure all requirements are covered"
+        },
+        {
+          "question": "In which STLC phase does Effort Estimation take place?",
+          "options": ["Requirement Analysis", "Test Planning", "Test Execution", "Test Closure"],
+          "answer": "Test Planning"
+        },
+        {
+          "question": "Who typically creates the Test Plan?",
+          "options": ["Junior Tester", "Senior QA Manager / Lead", "Developer", "Client"],
+          "answer": "Senior QA Manager / Lead"
+        },
+        {
+          "question": "What is the deliverable of the Test Case Development phase?",
+          "options": ["Test Plan", "Test Cases / Test Scripts and Test Data", "Project Code", "RTM"],
+          "answer": "Test Cases / Test Scripts and Test Data"
+        },
+        {
+          "question": "Which activity is performed during the Test Environment Setup phase?",
+          "options": ["Writing application code", "Preparing hardware and software for testing and performing Smoke Test", "Closing bugs", "Gathering requirements"],
+          "answer": "Preparing hardware and software for testing and performing Smoke Test"
+        },
+        {
+          "question": "What is the Exit Criteria for the Test Environment Setup phase?",
+          "options": ["Test Plan is approved", "Environment is ready and Smoke Test is successful", "All bugs are closed", "Code is 100% written"],
+          "answer": "Environment is ready and Smoke Test is successful"
+        },
+        {
+          "question": "In which STLC phase are defects mapped to test cases in the RTM?",
+          "options": ["Requirement Analysis", "Test Planning", "Test Execution", "Test Closure"],
+          "answer": "Test Execution"
+        },
+        {
+          "question": "What happens if a bug is found during the Test Execution phase?",
+          "options": ["Testing stops forever", "The bug is logged, sent to developers, fixed, and retested", "The bug is ignored until the next release", "The tester fixes the code themselves"],
+          "answer": "The bug is logged, sent to developers, fixed, and retested"
+        },
+        {
+          "question": "Which document is the result of the Test Cycle Closure phase?",
+          "options": ["Test Plan", "Test Closure Report", "RTM", "Requirements Document"],
+          "answer": "Test Closure Report"
+        },
+        {
+          "question": "Which testing strategy is considered an anti-pattern (bad practice)?",
+          "options": ["Pyramid Test Strategy", "Honeycomb Strategy", "Ice-Cream cone anti-strategy", "Agile Quadrant Strategy"],
+          "answer": "Ice-Cream cone anti-strategy"
+        },
+        {
+          "question": "What does 'Automation Feasibility Analysis' include?",
+          "options": ["Deciding which tests are possible and beneficial to automate", "Buying robots", "Analyzing automation engineer salaries", "Writing all autotests"],
+          "answer": "Deciding which tests are possible and beneficial to automate"
+        },
+        {
+          "question": "Can Test Execution start if the Test Environment is not ready?",
+          "options": ["Yes, always", "No, environment readiness is an Entry Criteria for test execution", "Only for manual tests", "Depends on the manager"],
+          "answer": "No, environment readiness is an Entry Criteria for test execution"
+        }
+      ]
+    },
+    {
+      "lecture_id": 3,
+      "topic": "UI Test Automation with Selenium WebDriver",
+      "questions": [
+        {
+          "question": "Which Selenium component allows Record & Playback of actions?",
+          "options": ["Selenium WebDriver", "Selenium Grid", "Selenium IDE", "Selenium RC"],
+          "answer": "Selenium IDE"
+        },
+        {
+          "question": "Which Selenium component is the deprecated predecessor to WebDriver?",
+          "options": ["Selenium Grid", "Selenium RC (Remote Control)", "Selenium IDE", "Appium"],
+          "answer": "Selenium RC (Remote Control)"
+        },
+        {
+          "question": "What is Selenium Grid used for?",
+          "options": ["Writing test plans", "Running tests in parallel across different machines and browsers", "Recording test videos", "Testing APIs"],
+          "answer": "Running tests in parallel across different machines and browsers"
+        },
+        {
+          "question": "Which driver is needed to run tests in the Chrome browser?",
+          "options": ["GeckoDriver", "ChromeDriver", "EdgeDriver", "InternetExplorerDriver"],
+          "answer": "ChromeDriver"
+        },
+        {
+          "question": "Which driver is needed to run tests in the Firefox browser?",
+          "options": ["GeckoDriver", "ChromeDriver", "FirefoxDriver", "OperaDriver"],
+          "answer": "GeckoDriver"
+        },
+        {
+          "question": "What is a Headless Browser?",
+          "options": ["A browser without internet access", "A browser without a Graphical User Interface (GUI)", "An old browser version", "A mobile browser"],
+          "answer": "A browser without a Graphical User Interface (GUI)"
+        },
+        {
+          "question": "An example of a Headless browser mentioned in the lecture:",
+          "options": ["Chrome", "Safari", "HTMLUnit", "Opera"],
+          "answer": "HTMLUnit"
+        },
+        {
+          "question": "What CANNOT be automated using pure Selenium WebDriver?",
+          "options": ["Web forms", "CAPTCHA and reCAPTCHA", "Page navigation", "Button clicks"],
+          "answer": "CAPTCHA and reCAPTCHA"
+        },
+        {
+          "question": "Does Selenium WebDriver support testing desktop (Windows) applications?",
+          "options": ["Yes, completely", "No, it is only for web applications", "Yes, but only for Windows 10", "Yes, with a plugin"],
+          "answer": "No, it is only for web applications"
+        },
+        {
+          "question": "Which library is used for driver management (automatic download) in Java?",
+          "options": ["WebDriverManager (Bonigarcia)", "SeleniumManager", "DriverManager", "AutoDriver"],
+          "answer": "WebDriverManager (Bonigarcia)"
+        },
+        {
+          "question": "Which WebDriver method is used to open a URL?",
+          "options": ["driver.open()", "driver.navigateTo()", "driver.get()", "driver.load()"],
+          "answer": "driver.get()"
+        },
+        {
+          "question": "What is the advantage of Selenium WebDriver over Selenium RC?",
+          "options": ["WebDriver interacts directly with the browser via a native driver, without a proxy JS server", "WebDriver supports only Java", "WebDriver is paid", "WebDriver is slower"],
+          "answer": "WebDriver interacts directly with the browser via a native driver, without a proxy JS server"
+        },
+        {
+          "question": "Can pure Selenium test images (image comparison)?",
+          "options": ["Yes", "No, it needs integration with tools like Sikuli", "Yes, via the verifyImage command", "Only in Chrome"],
+          "answer": "No, it needs integration with tools like Sikuli"
+        },
+        {
+          "question": "What is the name of the protocol used for communication between client libraries and browser drivers?",
+          "options": ["HTTP Protocol", "JSON Wire Protocol", "TCP/IP", "SOAP"],
+          "answer": "JSON Wire Protocol"
+        },
+        {
+          "question": "Which line of code correctly initializes ChromeDriver in Java?",
+          "options": ["WebDriver driver = new ChromeDriver();", "ChromeDriver driver = new WebDriver();", "driver = chrome.new()", "WebDriver driver = Chrome.start()"],
+          "answer": "WebDriver driver = new ChromeDriver();"
+        }
+      ]
+    },
+    {
+      "lecture_id": 4,
+      "topic": "Advanced Selenium WebDriver",
+      "questions": [
+        {
+          "question": "Which type of Wait tells WebDriver to wait for a specific condition (e.g., element visibility) until a timeout?",
+          "options": ["Implicit Wait", "Explicit Wait", "Static Wait", "Thread.sleep()"],
+          "answer": "Explicit Wait"
+        },
+        {
+          "question": "Which class is used to define conditions in Explicit Wait?",
+          "options": ["ExpectedConditions", "WaitConditions", "SeleniumConditions", "TimeOutConditions"],
+          "answer": "ExpectedConditions"
+        },
+        {
+          "question": "What is the main difference between Fluent Wait and Explicit Wait?",
+          "options": ["Fluent Wait allows configuring polling frequency and ignoring exceptions", "Fluent Wait only works in Chrome", "Explicit Wait has no timeout", "Fluent Wait is deprecated"],
+          "answer": "Fluent Wait allows configuring polling frequency and ignoring exceptions"
+        },
+        {
+          "question": "What is the Page Object Model (POM)?",
+          "options": ["A design pattern creating an Object Repository for web page elements", "A tool for taking screenshots", "A database model", "A type of performance testing"],
+          "answer": "A design pattern creating an Object Repository for web page elements"
+        },
+        {
+          "question": "Which annotation is used in Page Factory to find elements?",
+          "options": ["@Find", "@Locate", "@FindBy", "@Search"],
+          "answer": "@FindBy"
+        },
+        {
+          "question": "Which method is used to initialize elements in Page Factory?",
+          "options": ["PageFactory.initElements()", "PageFactory.start()", "Page.initialize()", "Driver.init()"],
+          "answer": "PageFactory.initElements()"
+        },
+        {
+          "question": "Which Selenium class is used to emulate complex mouse and keyboard actions (drag and drop, hover)?",
+          "options": ["Action", "Actions", "Interaction", "MouseEvents"],
+          "answer": "Actions"
+        },
+        {
+          "question": "Which Actions method moves the mouse cursor to the center of an element (hover effect)?",
+          "options": ["moveToElement()", "hover()", "mouseOver()", "focus()"],
+          "answer": "moveToElement()"
+        },
+        {
+          "question": "What advantage does using Page Object Model provide?",
+          "options": ["Reduces code duplication and improves test maintenance", "Automatically fixes bugs", "Increases test execution speed by 2x", "No need to write Java code"],
+          "answer": "Reduces code duplication and improves test maintenance"
+        },
+        {
+          "question": "Which Actions method performs a click and hold of the left mouse button?",
+          "options": ["clickAndHold()", "hold()", "press()", "mouseDown()"],
+          "answer": "clickAndHold()"
+        },
+        {
+          "question": "Which method is used to drag an element from one point to another?",
+          "options": ["dragAndDrop()", "moveAndDrop()", "slide()", "shift()"],
+          "answer": "dragAndDrop()"
+        },
+        {
+          "question": "What happens if Explicit Wait does not find an element within the allotted time?",
+          "options": ["TimeoutException", "NullPointerException", "The test continues without error", "The browser closes"],
+          "answer": "TimeoutException"
+        },
+        {
+          "question": "What is the .perform() method used for in the Actions class?",
+          "options": ["To execute the entire chain of actions", "To cancel an action", "To pause", "To save logs"],
+          "answer": "To execute the entire chain of actions"
+        },
+        {
+          "question": "Can Page Object Model be used without Page Factory?",
+          "options": ["Yes, it is just a pattern, Page Factory is merely an optimization", "No, POM strictly requires Page Factory", "Only in Python", "Only in old Selenium versions"],
+          "answer": "Yes, it is just a pattern, Page Factory is merely an optimization"
+        },
+        {
+          "question": "Which type of wait is applied globally to all driver elements immediately after setting?",
+          "options": ["Implicit Wait", "Explicit Wait", "Fluent Wait", "Soft Wait"],
+          "answer": "Implicit Wait"
+        }
+      ]
+    },
+    {
+      "lecture_id": 5,
+      "topic": "TestNG Framework",
+      "questions": [
+        {
+          "question": "What does the abbreviation TestNG stand for?",
+          "options": ["Test Next Generation", "Test New Gear", "Testing Native Group", "Test Node Generator"],
+          "answer": "Test Next Generation"
+        },
+        {
+          "question": "Which annotation marks a method as a test case?",
+          "options": ["@Test", "@TestCase", "@Run", "@Check"],
+          "answer": "@Test"
+        },
+        {
+          "question": "Which annotation executes a method once before running all tests in a given <test> tag in the XML file?",
+          "options": ["@BeforeClass", "@BeforeSuite", "@BeforeTest", "@BeforeMethod"],
+          "answer": "@BeforeTest"
+        },
+        {
+          "question": "Which method executes before EACH test method (@Test)?",
+          "options": ["@BeforeMethod", "@BeforeClass", "@BeforeTest", "@Setup"],
+          "answer": "@BeforeMethod"
+        },
+        {
+          "question": "What is the main advantage of parallel testing in TestNG?",
+          "options": ["Reduces overall test execution time", "Improves code quality", "Automatically fixes bugs", "Simplifies reports"],
+          "answer": "Reduces overall test execution time"
+        },
+        {
+          "question": "What can be a disadvantage of parallel testing?",
+          "options": ["Issues with dependent modules (Interdependency) and thread safety", "Tests run too fast", "Cannot use Java", "Lack of logs"],
+          "answer": "Issues with dependent modules (Interdependency) and thread safety"
+        },
+        {
+          "question": "What are Listeners in TestNG?",
+          "options": ["Interfaces that modify default system behavior (e.g., logging on failure)", "People who listen to tests", "Microphones for recording sound", "Special drivers"],
+          "answer": "Interfaces that modify default system behavior (e.g., logging on failure)"
+        },
+        {
+          "question": "Which Listener method is called upon test success?",
+          "options": ["onTestSuccess", "onTestPass", "onSuccess", "testPassed"],
+          "answer": "onTestSuccess"
+        },
+        {
+          "question": "Which class in TestNG is used to add logs to the report?",
+          "options": ["Reporter", "Logger", "Printer", "Writer"],
+          "answer": "Reporter"
+        },
+        {
+          "question": "Where is the TestNG report folder created by default?",
+          "options": ["test-output", "target", "reports", "logs"],
+          "answer": "test-output"
+        },
+        {
+          "question": "What is the name of the TestNG report file that can be sent via email?",
+          "options": ["emailable-report.html", "summary.html", "index.html", "testng-results.xml"],
+          "answer": "emailable-report.html"
+        },
+        {
+          "question": "Can tests be grouped in TestNG (e.g., 'smoke', 'regression')?",
+          "options": ["Yes, using @Test(groups={...}) parameters", "No, it is impossible", "Only by creating different classes", "Only in the paid version"],
+          "answer": "Yes, using @Test(groups={...}) parameters"
+        },
+        {
+          "question": "What is @BeforeSuite used for?",
+          "options": ["Runs once before all tests in the entire Suite", "Runs before each class", "Runs before each method", "Runs before launching the browser"],
+          "answer": "Runs once before all tests in the entire Suite"
+        },
+        {
+          "question": "Which logging library is often used with Selenium and TestNG (mentioned in the lecture)?",
+          "options": ["Log4j", "System.out", "ConsoleLog", "JavaLog"],
+          "answer": "Log4j"
+        },
+        {
+          "question": "What does Data Parameterization allow in TestNG?",
+          "options": ["Running the same test with different datasets", "Running tests in different languages", "Changing browser parameters", "Encrypting data"],
+          "answer": "Running the same test with different datasets"
+        }
+      ]
+    },
+    {
+      "lecture_id": 6,
+      "topic": "Cross-browser & Frameworks",
+      "questions": [
+        {
+          "question": "What is Cross-browser testing?",
+          "options": ["Verifying that the application works in different browsers and OSs", "Testing only in Chrome", "Testing internet speed", "Comparing monitors"],
+          "answer": "Verifying that the application works in different browsers and OSs"
+        },
+        {
+          "question": "What are tools like BrowserStack and SauceLabs used for?",
+          "options": ["These are cloud platforms for cross-browser and mobile testing", "These are code editors", "These are databases", "These are report generators"],
+          "answer": "These are cloud platforms for cross-browser and mobile testing"
+        },
+        {
+          "question": "What is Data-Driven Testing (DDT)?",
+          "options": ["A method where test data is separated from test code (stored in Excel, CSV, DB)", "A method where data is Hardcoded", "Database testing", "Usage statistics collection"],
+          "answer": "A method where test data is separated from test code (stored in Excel, CSV, DB)"
+        },
+        {
+          "question": "What is the difference between Keyword-Driven Testing and Data-Driven?",
+          "options": ["In Keyword-Driven, actions are described by keywords in a file, not just data", "Keyword-Driven uses only the keyboard", "DDT uses only numbers", "They are the same"],
+          "answer": "In Keyword-Driven, actions are described by keywords in a file, not just data"
+        },
+        {
+          "question": "What is the framework called that combines Data-Driven and Keyword-Driven approaches?",
+          "options": ["Hybrid Driven Framework", "Mixed Framework", "Combo Testing", "Dual Framework"],
+          "answer": "Hybrid Driven Framework"
+        },
+        {
+          "question": "Which Java library is used to work with Microsoft Office (Excel) files?",
+          "options": ["Apache POI", "Java Office", "OpenXML", "Apache Excel"],
+          "answer": "Apache POI"
+        },
+        {
+          "question": "What is the advantage of Data-Driven Testing?",
+          "options": ["Allows easy data changes without code modification and covers more cases", "Speeds up single test execution", "Reduces bugs in application code", "Does not require programming knowledge"],
+          "answer": "Allows easy data changes without code modification and covers more cases"
+        },
+        {
+          "question": "Which file is often used as a data source in DDT?",
+          "options": ["Excel (.xls, .xlsx)", "MP3", "JPG", "EXE"],
+          "answer": "Excel (.xls, .xlsx)"
+        },
+        {
+          "question": "Which command is used in Windows to set environment variables (e.g., for BrowserStack)?",
+          "options": ["setx", "put", "env", "config"],
+          "answer": "setx"
+        },
+        {
+          "question": "Which type of testing ensures the site looks correct on different screen resolutions?",
+          "options": ["Compatibility / Layout Testing", "Unit Testing", "Security Testing", "API Testing"],
+          "answer": "Compatibility / Layout Testing"
+        },
+        {
+          "question": "What is 'Apache MetaModel'?",
+          "options": ["A library for unified access to different datastores", "An HTML metadata model", "A browser plugin", "A tool for creating charts"],
+          "answer": "A library for unified access to different datastores"
+        },
+        {
+          "question": "Why is Cross-browser testing important?",
+          "options": ["Because browsers may render HTML/CSS/JS differently", "To spend more time", "Because the client said so", "It is not important"],
+          "answer": "Because browsers may render HTML/CSS/JS differently"
+        },
+        {
+          "question": "Can BrowserStack be used to test local servers?",
+          "options": ["Yes, via a special tunnel (Local Testing)", "No, only public sites", "Only with the most expensive plan", "No, it is technically impossible"],
+          "answer": "Yes, via a special tunnel (Local Testing)"
+        },
+        {
+          "question": "Which checklist item for cross-browser testing verifies fonts?",
+          "options": ["Font size validation", "Color validation", "Image validation", "Link validation"],
+          "answer": "Font size validation"
+        },
+        {
+          "question": "What is the essence of a Hybrid Framework?",
+          "options": ["Keywords (actions) and test data are externalized to files", "Using manual and automated testing simultaneously", "Using Java and Python simultaneously", "Testing on Windows and Mac simultaneously"],
+          "answer": "Keywords (actions) and test data are externalized to files"
+        }
+      ]
+    },
+    {
+      "lecture_id": 7,
+      "topic": "Database & Performance Testing",
+      "questions": [
+        {
+          "question": "What does the abbreviation ACID mean in the context of database transactions?",
+          "options": ["Atomicity, Consistency, Isolation, Durability", "Accuracy, Consistency, Integrity, Durability", "Automated, Centralized, Integrated, Distributed", "Action, Code, Interface, Data"],
+          "answer": "Atomicity, Consistency, Isolation, Durability"
+        },
+        {
+          "question": "Which ACID property guarantees the 'all-or-nothing' principle?",
+          "options": ["Atomicity", "Consistency", "Isolation", "Durability"],
+          "answer": "Atomicity"
+        },
+        {
+          "question": "What does Structural Database Testing verify?",
+          "options": ["Schemas, tables, triggers, stored procedures", "Button colors on UI", "Internet speed", "Interface usability"],
+          "answer": "Schemas, tables, triggers, stored procedures"
+        },
+        {
+          "question": "What is ETL Testing?",
+          "options": ["Extract, Transform, Load - verifying data accuracy when moving between systems", "End To Loop - loop testing", "Error Tracking Log - analyzing error logs", "External Tool Loading - loading external tools"],
+          "answer": "Extract, Transform, Load - verifying data accuracy when moving between systems"
+        },
+        {
+          "question": "Which type of testing checks the system under normal and peak loads?",
+          "options": ["Performance Testing (Load & Stress)", "Unit Testing", "Usability Testing", "Regression Testing"],
+          "answer": "Performance Testing (Load & Stress)"
+        },
+        {
+          "question": "What is the difference between Load Testing and Stress Testing?",
+          "options": ["Load tests expected load, Stress tests limits until failure", "Load tests database, Stress tests interface", "Load is manual, Stress is automated", "No difference"],
+          "answer": "Load tests expected load, Stress tests limits until failure"
+        },
+        {
+          "question": "Which SQL operator is used to retrieve data from a database?",
+          "options": ["SELECT", "UPDATE", "DELETE", "INSERT"],
+          "answer": "SELECT"
+        },
+        {
+          "question": "What does Schema Testing verify?",
+          "options": ["Consistency of table/view/column formats between DB and UI (mapping)", "Query execution speed", "Password security", "Correctness of Java code"],
+          "answer": "Consistency of table/view/column formats between DB and UI (mapping)"
+        },
+        {
+          "question": "Which tool is often used for Performance Testing (mentioned in lecture)?",
+          "options": ["JMeter", "Selenium IDE", "Appium", "Cucumber"],
+          "answer": "JMeter"
+        },
+        {
+          "question": "What is 'Data Integrity'?",
+          "options": ["Data is accurate, complete, and consistent across the system", "Data is encrypted", "Data is deleted", "Data is translated"],
+          "answer": "Data is accurate, complete, and consistent across the system"
+        },
+        {
+          "question": "Which type of database is tested using JDBC?",
+          "options": ["Relational DBs", "NoSQL DBs", "File system", "Excel tables"],
+          "answer": "Relational DBs"
+        },
+        {
+          "question": "What is MongoDB?",
+          "options": ["NoSQL database", "Relational database", "Programming language", "Operating system"],
+          "answer": "NoSQL database"
+        },
+        {
+          "question": "What is a Trigger in a database?",
+          "options": ["A procedure that automatically executes upon a specific event (INSERT/UPDATE/DELETE)", "A keyboard button", "A code error", "A type of virus"],
+          "answer": "A procedure that automatically executes upon a specific event (INSERT/UPDATE/DELETE)"
+        },
+        {
+          "question": "Which ACID property ensures data persists even after power failure (commit)?",
+          "options": ["Durability", "Atomicity", "Consistency", "Isolation"],
+          "answer": "Durability"
+        },
+        {
+          "question": "What is Migration Testing?",
+          "options": ["Verifying no data loss when moving the system to a new platform/DB", "Testing bird migration", "Moving office to another building", "Changing programming language"],
+          "answer": "Verifying no data loss when moving the system to a new platform/DB"
+        }
+      ]
+    },
+    {
+      "lecture_id": 8,
+      "topic": "BDD & Cucumber Framework",
+      "questions": [
+        {
+          "question": "What does BDD stand for?",
+          "options": ["Behavior Driven Development", "Basic Data Design", "Binary Digit Decoding", "Bug Detection Device"],
+          "answer": "Behavior Driven Development"
+        },
+        {
+          "question": "Which language is used for writing scenarios in Cucumber?",
+          "options": ["Gherkin", "Python", "Java", "Ruby"],
+          "answer": "Gherkin"
+        },
+        {
+          "question": "What format do Gherkin scenarios have?",
+          "options": ["Given - When - Then", "If - Then - Else", "Try - Catch - Finally", "Start - Run - Stop"],
+          "answer": "Given - When - Then"
+        },
+        {
+          "question": "In which file are Gherkin scenarios stored?",
+          "options": ["Feature File (.feature)", "Java Class (.java)", "XML File (.xml)", "JSON File (.json)"],
+          "answer": "Feature File (.feature)"
+        },
+        {
+          "question": "What is a Step Definition?",
+          "options": ["Code (e.g., in Java) that implements steps from the Feature file", "Step definition in documentation", "List of bugs", "Test plan"],
+          "answer": "Code (e.g., in Java) that implements steps from the Feature file"
+        },
+        {
+          "question": "What is the main difference between BDD and TDD?",
+          "options": ["BDD focuses on system behavior from user perspective (simple language), TDD on code implementation (tests written by devs)", "BDD is only for Python, TDD for Java", "BDD is older than TDD", "No difference"],
+          "answer": "BDD focuses on system behavior from user perspective (simple language), TDD on code implementation (tests written by devs)"
+        },
+        {
+          "question": "What does 'Scenario Outline' do in Cucumber?",
+          "options": ["Allows running one scenario multiple times with different data (Data Tables)", "Describes database structure", "Draws a chart", "Deletes a scenario"],
+          "answer": "Allows running one scenario multiple times with different data (Data Tables)"
+        },
+        {
+          "question": "What are Hooks in Cucumber?",
+          "options": ["Code blocks executed before or after scenarios (@Before, @After)", "Hooks for catching bugs", "Links between tables", "Variable types"],
+          "answer": "Code blocks executed before or after scenarios (@Before, @After)"
+        },
+        {
+          "question": "Which Gherkin keyword describes preconditions?",
+          "options": ["Given", "When", "Then", "And"],
+          "answer": "Given"
+        },
+        {
+          "question": "Which Gherkin keyword describes user action?",
+          "options": ["When", "Given", "Then", "But"],
+          "answer": "When"
+        },
+        {
+          "question": "Which Gherkin keyword describes the expected result?",
+          "options": ["Then", "When", "Given", "Background"],
+          "answer": "Then"
+        },
+        {
+          "question": "Which Cucumber library is used for .NET?",
+          "options": ["SpecFlow", "JBehave", "TestNG", "NUnit"],
+          "answer": "SpecFlow"
+        },
+        {
+          "question": "What is the main advantage of BDD?",
+          "options": ["Improves communication between technical and non-technical members (business, QA, dev)", "Speeds up compilation", "Replaces manual testing", "Does not require writing code"],
+          "answer": "Improves communication between technical and non-technical members (business, QA, dev)"
+        },
+        {
+          "question": "What is TDD (Test Driven Development)?",
+          "options": ["Development through testing: write test first (it fails), then code", "Testing after development", "Documentation testing", "Database testing"],
+          "answer": "Development through testing: write test first (it fails), then code"
+        },
+        {
+          "question": "Can Cucumber work with Selenium?",
+          "options": ["Yes, Cucumber is often used as a wrapper over Selenium for BDD tests", "No, they are incompatible", "Only in version 1.0", "Only with license"],
+          "answer": "Yes, Cucumber is often used as a wrapper over Selenium for BDD tests"
+        }
+      ]
+    },
+    {
+      "lecture_id": 9,
+      "topic": "API Testing",
+      "questions": [
+        {
+          "question": "What does API stand for?",
+          "options": ["Application Programming Interface", "Advanced Program Integration", "Automated Processing Interface", "Apple Phone Integration"],
+          "answer": "Application Programming Interface"
+        },
+        {
+          "question": "Which HTTP method corresponds to the Read operation in CRUD?",
+          "options": ["GET", "POST", "PUT", "DELETE"],
+          "answer": "GET"
+        },
+        {
+          "question": "Which HTTP method is used to Create a new resource?",
+          "options": ["POST", "GET", "PUT", "PATCH"],
+          "answer": "POST"
+        },
+        {
+          "question": "Which HTTP status code means 'OK' (Success)?",
+          "options": ["200", "404", "500", "201"],
+          "answer": "200"
+        },
+        {
+          "question": "Which status code means 'Not Found'?",
+          "options": ["404", "200", "503", "401"],
+          "answer": "404"
+        },
+        {
+          "question": "Which status code means 'Internal Server Error'?",
+          "options": ["500", "400", "200", "302"],
+          "answer": "500"
+        },
+        {
+          "question": "What is the main difference between REST and SOAP?",
+          "options": ["REST is an architectural style (flexible, uses JSON/HTTP), SOAP is a protocol (strict, XML)", "REST uses only XML", "SOAP is faster", "REST is paid"],
+          "answer": "REST is an architectural style (flexible, uses JSON/HTTP), SOAP is a protocol (strict, XML)"
+        },
+        {
+          "question": "Which data format is most commonly used in REST API?",
+          "options": ["JSON", "HTML", "Binary", "Text"],
+          "answer": "JSON"
+        },
+        {
+          "question": "Which Java library is used for automating REST API tests?",
+          "options": ["RestAssured", "Selenium", "JUnit", "Mockito"],
+          "answer": "RestAssured"
+        },
+        {
+          "question": "What is Swagger used for?",
+          "options": ["For documenting and visualizing RESTful APIs", "For hacking passwords", "For creating databases", "For writing UI tests"],
+          "answer": "For documenting and visualizing RESTful APIs"
+        },
+        {
+          "question": "What is Postman used for?",
+          "options": ["Tool for manual and automated API testing", "Email client", "Browser", "Code editor"],
+          "answer": "Tool for manual and automated API testing"
+        },
+        {
+          "question": "Which HTTP method is used to Update an existing resource entirely?",
+          "options": ["PUT", "POST", "GET", "HEAD"],
+          "answer": "PUT"
+        },
+        {
+          "question": "What is an Endpoint?",
+          "options": ["A specific URL where an API resource is available", "End of wire", "Breakpoint in code", "Last test"],
+          "answer": "A specific URL where an API resource is available"
+        },
+        {
+          "question": "What advantage does SOAP have over REST?",
+          "options": ["Built-in error handling and security (WS-Security), suitable for complex enterprise systems", "Ease of use", "Using JSON", "Works only in browser"],
+          "answer": "Built-in error handling and security (WS-Security), suitable for complex enterprise systems"
+        },
+        {
+          "question": "What syntax does RestAssured use?",
+          "options": ["Given - When - Then (like in BDD)", "If - Else", "Try - Catch", "Select - From - Where"],
+          "answer": "Given - When - Then (like in BDD)"
+        }
+      ]
+    },
+    {
+      "lecture_id": 10,
+      "topic": "Microservices Testing & CI/CD",
+      "questions": [
+        {
+          "question": "What is microservices architecture?",
+          "options": ["An application consisting of a set of independent services communicating via API", "One large monolithic application", "App without database", "App only for mobile phones"],
+          "answer": "An application consisting of a set of independent services communicating via API"
+        },
+        {
+          "question": "Which type of testing checks that services can communicate with each other according to an agreement (contract)?",
+          "options": ["Contract Testing", "Unit Testing", "UI Testing", "Manual Testing"],
+          "answer": "Contract Testing"
+        },
+        {
+          "question": "What is End-to-End (E2E) testing in microservices?",
+          "options": ["Testing the entire system as a black box to achieve business goals", "Testing one function", "Code review", "Database testing"],
+          "answer": "Testing the entire system as a black box to achieve business goals"
+        },
+        {
+          "question": "What is Service Virtualization (Mocking/Stubbing)?",
+          "options": ["Simulating the behavior of a dependent service (if unavailable or complex) for testing", "Virtual reality", "Installing Windows on Mac", "Creating a DB copy"],
+          "answer": "Simulating the behavior of a dependent service (if unavailable or complex) for testing"
+        },
+        {
+          "question": "Why choose 'High-Risk Services' for testing first?",
+          "options": ["To reduce risks early and not slow down the CI/CD pipeline with heavy tests", "Because they are easiest", "Because manager said so", "It is not needed"],
+          "answer": "To reduce risks early and not slow down the CI/CD pipeline with heavy tests"
+        },
+        {
+          "question": "What is Unit Testing in the context of microservices?",
+          "options": ["Testing a single component (method, class) within a service", "Testing connection between services", "Testing whole app", "Checking documentation"],
+          "answer": "Testing a single component (method, class) within a service"
+        },
+        {
+          "question": "Which CI/CD tool is mentioned in the lecture?",
+          "options": ["Jenkins", "Photoshop", "Word", "Excel"],
+          "answer": "Jenkins"
+        },
+        {
+          "question": "What is WireMock?",
+          "options": ["A library for mocking (simulating) web services (HTTP-based APIs)", "Tool for drawing layouts", "Program for making cables", "Database type"],
+          "answer": "A library for mocking (simulating) web services (HTTP-based APIs)"
+        },
+        {
+          "question": "What is the goal of Integration Testing in microservices?",
+          "options": ["Verifying interaction of microservices as a subsystem", "Testing one method", "UI testing", "Checking Java installation"],
+          "answer": "Verifying interaction of microservices as a subsystem"
+        },
+        {
+          "question": "What is CI/CD?",
+          "options": ["Continuous Integration / Continuous Delivery (Delivery)", "Computer Interface / Computer Design", "Common Integration / Common Data", "Code Inspection / Code Delete"],
+          "answer": "Continuous Integration / Continuous Delivery (Delivery)"
+        },
+        {
+          "question": "What is the complexity of testing microservices compared to a monolith?",
+          "options": ["Many dependencies, distributed nature, need to test connections", "No complexity, it is easier", "Microservices don't need testing", "Complexity only in programming language"],
+          "answer": "Many dependencies, distributed nature, need to test connections"
+        },
+        {
+          "question": "What is a Consumer-Driven Contract?",
+          "options": ["Approach where API consumer determines expectations from API provider", "Software purchase contract", "Contract with client", "License type"],
+          "answer": "Approach where API consumer determines expectations from API provider"
+        },
+        {
+          "question": "What does 'Isolated Testing' of a microservice verify?",
+          "options": ["Service operation in isolation using mocks (without real dependencies)", "Service operation with real DB", "Service operation with internet", "Service operation with UI"],
+          "answer": "Service operation in isolation using mocks (without real dependencies)"
+        },
+        {
+          "question": "Which HTTP status will a mock service return if configured correctly?",
+          "options": ["The one we set in mock configuration (e.g., 200 or 500)", "Always 200", "Always 404", "Random"],
+          "answer": "The one we set in mock configuration (e.g., 200 or 500)"
+        },
+        {
+          "question": "What is Docker used for in microservices testing?",
+          "options": ["For containerizing services and creating an isolated environment", "For writing code", "For drawing charts", "For sending email"],
+          "answer": "For containerizing services and creating an isolated environment"
+        }
+      ]
+    }
+  ]
+}
+;
+// ↑↑↑ END ENGLISH JSON ↑↑↑
+
+
+// ↓↓↓ PASTE RUSSIAN JSON HERE ↓↓↓
+const DATA_RU = {
+  "title": "SQA & Testing Final Exam Preparation",
+  "total_questions": 150,
+  "lectures": [
+    {
+      "lecture_id": 1,
+      "topic": "Introduction to SQA and Testing",
+      "questions": [
+        {
+          "question": "Каково основное ограничение тестирования согласно Дейкстре?",
+          "options": ["Тестирование доказывает отсутствие багов", "Тестирование может показать наличие багов, но не их отсутствие", "Тестирование слишком дорого для полных проверок", "Тестирование не может выполняться без автоматизации"],
+          "answer": "Тестирование может показать наличие багов, но не их отсутствие"
+        },
+        {
+          "question": "Что такое 'Halting Problem' в контексте тестирования?",
+          "options": ["Проблема остановки тестирования из-за нехватки бюджета", "Теоретическое ограничение, делающее невозможным полное тестирование любой нетривиальной системы", "Ситуация, когда программа зависает", "Отказ от тестирования из-за дедлайнов"],
+          "answer": "Теоретическое ограничение, делающее невозможным полное тестирование любой нетривиальной системы"
+        },
+        {
+          "question": "Сколько принципов менеджмента качества лежит в основе стандарта ISO 9000?",
+          "options": ["5", "7", "10", "12"],
+          "answer": "7"
+        },
+        {
+          "question": "Что означает аббревиатура CMMI?",
+          "options": ["Capability Maturity Model Integration", "Computer Managed Model Interface", "Common Maturity Method Implementation", "Capability Management Main Integration"],
+          "answer": "Capability Maturity Model Integration"
+        },
+        {
+          "question": "Сколько уровней зрелости (levels) имеет модель CMMI?",
+          "options": ["3", "5", "7", "4"],
+          "answer": "5"
+        },
+        {
+          "question": "Какой тип тестирования проверяет внутреннюю структуру кода и логику работы программы?",
+          "options": ["Black-Box Testing", "White-Box Testing", "Grey-Box Testing", "User Acceptance Testing"],
+          "answer": "White-Box Testing"
+        },
+        {
+          "question": "Какой тип тестирования выполняется для проверки, что критические функции работают, перед запуском глубокого тестирования?",
+          "options": ["Regression Testing", "Stress Testing", "Smoke Testing", "Performance Testing"],
+          "answer": "Smoke Testing"
+        },
+        {
+          "question": "В чем отличие Sanity Testing от Smoke Testing?",
+          "options": ["Sanity проверяет новые функции или багфиксы (узко), Smoke проверяет критический функционал (широко)", "Sanity делается разработчиками, Smoke тестерами", "Smoke делается после релиза, Sanity до", "Это одно и то же"],
+          "answer": "Sanity проверяет новые функции или багфиксы (узко), Smoke проверяет критический функционал (широко)"
+        },
+        {
+          "question": "Какой статус получает баг сразу после того, как тестер его завел (logged)?",
+          "options": ["New", "Assigned", "Open", "Verified"],
+          "answer": "New"
+        },
+        {
+          "question": "Кто решает, является ли дефект валидным после того, как он переведен в статус 'New'?",
+          "options": ["Junior Tester", "Project Manager / Lead", "Customer", "Designer"],
+          "answer": "Project Manager / Lead"
+        },
+        {
+          "question": "Какой статус присваивается дефекту, если разработчик считает, что это не баг, а фича?",
+          "options": ["Fixed", "Rejected", "Deferred", "Reopened"],
+          "answer": "Rejected"
+        },
+        {
+          "question": "Какой статус получает дефект, если его исправление отложено на следующий релиз?",
+          "options": ["Deferred", "Rejected", "Closed", "Duplicate"],
+          "answer": "Deferred"
+        },
+        {
+          "question": "Что происходит с багом, если тестер проверяет исправление и проблема сохраняется?",
+          "options": ["Closed", "Reopened", "Deferred", "Verified"],
+          "answer": "Reopened"
+        },
+        {
+          "question": "Regression Testing — это:",
+          "options": ["Тестирование только новых функций", "Повторное тестирование системы для подтверждения, что изменения не сломали старый функционал", "Тестирование на проникновение", "Тестирование документации"],
+          "answer": "Повторное тестирование системы для подтверждения, что изменения не сломали старый функционал"
+        },
+        {
+          "question": "Что из перечисленного является практическим ограничением тестирования?",
+          "options": ["Halting Problem", "Запрет на использование инструментов", "Ограничения во времени и стоимости (Time and Cost)", "Отсутствие компьютеров"],
+          "answer": "Ограничения во времени и стоимости (Time and Cost)"
+        }
+      ]
+    },
+    {
+      "lecture_id": 2,
+      "topic": "Software Testing Life Cycle (STLC)",
+      "questions": [
+        {
+          "question": "Что означает аббревиатура STLC?",
+          "options": ["Software Testing Life Cycle", "System Technical Life Cycle", "Software Test Lead Course", "Standard Testing Logic Code"],
+          "answer": "Software Testing Life Cycle"
+        },
+        {
+          "question": "Что такое Entry Criteria в STLC?",
+          "options": ["Условия, которые должны быть выполнены до завершения тестирования", "Предварительные условия, которые должны быть выполнены перед началом фазы тестирования", "Список багов для исправления", "Критерии найма сотрудников"],
+          "answer": "Предварительные условия, которые должны быть выполнены перед началом фазы тестирования"
+        },
+        {
+          "question": "Какой документ создается на фазе Requirement Phase Testing?",
+          "options": ["Test Plan", "RTM (Requirement Traceability Matrix)", "Bug Report", "Test Case"],
+          "answer": "RTM (Requirement Traceability Matrix)"
+        },
+        {
+          "question": "Для чего нужна матрица RTM?",
+          "options": ["Для отслеживания зарплаты тестеров", "Для связывания требований с тест-кейсами, чтобы убедиться в покрытии всех требований", "Для генерации автоматических тестов", "Для планирования отпусков"],
+          "answer": "Для связывания требований с тест-кейсами, чтобы убедиться в покрытии всех требований"
+        },
+        {
+          "question": "На какой фазе STLC происходит оценка трудозатрат (Effort Estimation)?",
+          "options": ["Requirement Analysis", "Test Planning", "Test Execution", "Test Closure"],
+          "answer": "Test Planning"
+        },
+        {
+          "question": "Кто обычно создает Test Plan?",
+          "options": ["Junior Tester", "Senior QA Manager / Lead", "Developer", "Client"],
+          "answer": "Senior QA Manager / Lead"
+        },
+        {
+          "question": "Что является deliverable (результатом) фазы Test Case Development?",
+          "options": ["Test Plan", "Test Cases / Test Scripts и Test Data", "Project Code", "RTM"],
+          "answer": "Test Cases / Test Scripts и Test Data"
+        },
+        {
+          "question": "Какая активность выполняется на фазе Test Environment Setup?",
+          "options": ["Написание кода приложения", "Подготовка аппаратного и программного обеспечения для тестирования и Smoke Test", "Закрытие багов", "Сбор требований"],
+          "answer": "Подготовка аппаратного и программного обеспечения для тестирования и Smoke Test"
+        },
+        {
+          "question": "Что является Exit Criteria для фазы Test Environment Setup?",
+          "options": ["Test Plan утвержден", "Окружение готово и Smoke Test прошел успешно", "Все баги закрыты", "Код написан на 100%"],
+          "answer": "Окружение готово и Smoke Test прошел успешно"
+        },
+        {
+          "question": "На какой фазе STLC дефекты мапятся (связываются) с тест-кейсами в RTM?",
+          "options": ["Requirement Analysis", "Test Planning", "Test Execution", "Test Closure"],
+          "answer": "Test Execution"
+        },
+        {
+          "question": "Что происходит, если в фазе Test Execution найден баг?",
+          "options": ["Тестирование останавливается навсегда", "Баг логируется, отправляется разработчикам, исправляется и перепроверяется", "Баг игнорируется до следующего релиза", "Тестер исправляет код сам"],
+          "answer": "Баг логируется, отправляется разработчикам, исправляется и перепроверяется"
+        },
+        {
+          "question": "Какой документ является результатом фазы Test Cycle Closure?",
+          "options": ["Test Plan", "Test Closure Report", "RTM", "Requirements Document"],
+          "answer": "Test Closure Report"
+        },
+        {
+          "question": "Какая из стратегий тестирования считается анти-паттерном (плохой практикой)?",
+          "options": ["Pyramid Test Strategy", "Honeycomb Strategy", "Ice-Cream cone anti-strategy", "Agile Quadrant Strategy"],
+          "answer": "Ice-Cream cone anti-strategy"
+        },
+        {
+          "question": "Что включает в себя 'Automation Feasibility Analysis'?",
+          "options": ["Решение, какие тесты можно и выгодно автоматизировать", "Покупка роботов", "Анализ зарплат автоматизаторов", "Написание всех автотестов"],
+          "answer": "Решение, какие тесты можно и выгодно автоматизировать"
+        },
+        {
+          "question": "Можно ли начать Test Execution, если Test Environment не готов?",
+          "options": ["Да, всегда", "Нет, готовность окружения — это Entry Criteria для выполнения тестов", "Только для мануальных тестов", "Зависит от менеджера"],
+          "answer": "Нет, готовность окружения — это Entry Criteria для выполнения тестов"
+        }
+      ]
+    },
+    {
+      "lecture_id": 3,
+      "topic": "UI Test Automation with Selenium WebDriver",
+      "questions": [
+        {
+          "question": "Какой компонент Selenium позволяет записывать и воспроизводить действия (Record & Playback)?",
+          "options": ["Selenium WebDriver", "Selenium Grid", "Selenium IDE", "Selenium RC"],
+          "answer": "Selenium IDE"
+        },
+        {
+          "question": "Какой компонент Selenium является устаревшим предшественником WebDriver?",
+          "options": ["Selenium Grid", "Selenium RC (Remote Control)", "Selenium IDE", "Appium"],
+          "answer": "Selenium RC (Remote Control)"
+        },
+        {
+          "question": "Для чего используется Selenium Grid?",
+          "options": ["Для написания тест-планов", "Для параллельного запуска тестов на разных машинах и браузерах", "Для записи видео тестов", "Для тестирования API"],
+          "answer": "Для параллельного запуска тестов на разных машинах и браузерах"
+        },
+        {
+          "question": "Какой драйвер нужен для запуска тестов в браузере Chrome?",
+          "options": ["GeckoDriver", "ChromeDriver", "EdgeDriver", "InternetExplorerDriver"],
+          "answer": "ChromeDriver"
+        },
+        {
+          "question": "Какой драйвер нужен для запуска тестов в браузере Firefox?",
+          "options": ["GeckoDriver", "ChromeDriver", "FirefoxDriver", "OperaDriver"],
+          "answer": "GeckoDriver"
+        },
+        {
+          "question": "Что такое Headless Browser?",
+          "options": ["Браузре без доступа в интернет", "Браузер без графического интерфейса пользователя (GUI)", "Старая версия браузера", "Мобильный браузер"],
+          "answer": "Браузер без графического интерфейса пользователя (GUI)"
+        },
+        {
+          "question": "Пример Headless браузера, упомянутый в лекции:",
+          "options": ["Chrome", "Safari", "HTMLUnit", "Opera"],
+          "answer": "HTMLUnit"
+        },
+        {
+          "question": "Что НЕЛЬЗЯ автоматизировать с помощью чистого Selenium WebDriver?",
+          "options": ["Веб-формы", "CAPTCHA и reCAPTCHA", "Навигацию по страницам", "Клики по кнопкам"],
+          "answer": "CAPTCHA и reCAPTCHA"
+        },
+        {
+          "question": "Поддерживает ли Selenium WebDriver тестирование десктопных (Windows) приложений?",
+          "options": ["Да, полностью", "Нет, он только для веб-приложений", "Да, но только для Windows 10", "Да, с помощью плагина"],
+          "answer": "Нет, он только для веб-приложений"
+        },
+        {
+          "question": "Какая библиотека используется для управления драйверами (автоматической загрузки) в Java?",
+          "options": ["WebDriverManager (Bonigarcia)", "SeleniumManager", "DriverManager", "AutoDriver"],
+          "answer": "WebDriverManager (Bonigarcia)"
+        },
+        {
+          "question": "Какой метод WebDriver используется для открытия URL?",
+          "options": ["driver.open()", "driver.navigateTo()", "driver.get()", "driver.load()"],
+          "answer": "driver.get()"
+        },
+        {
+          "question": "В чем преимущество Selenium WebDriver перед Selenium RC?",
+          "options": ["WebDriver взаимодействует с браузером напрямую через нативный драйвер, без посредника JS-сервера", "WebDriver поддерживает только Java", "WebDriver платный", "WebDriver медленнее"],
+          "answer": "WebDriver взаимодействует с браузером напрямую через нативный драйвер, без посредника JS-сервера"
+        },
+        {
+          "question": "Можно ли тестировать изображения (image comparison) чистым Selenium?",
+          "options": ["Да", "Нет, нужно интегрировать с инструментами типа Sikuli", "Да, через команду verifyImage", "Только в Chrome"],
+          "answer": "Нет, нужно интегрировать с инструментами типа Sikuli"
+        },
+        {
+          "question": "Как называется протокол, по которому общаются клиентские библиотеки и драйверы браузера?",
+          "options": ["HTTP Protocol", "JSON Wire Protocol", "TCP/IP", "SOAP"],
+          "answer": "JSON Wire Protocol"
+        },
+        {
+          "question": "Какая строка кода правильно инициализирует ChromeDriver в Java?",
+          "options": ["WebDriver driver = new ChromeDriver();", "ChromeDriver driver = new WebDriver();", "driver = chrome.new()", "WebDriver driver = Chrome.start()"],
+          "answer": "WebDriver driver = new ChromeDriver();"
+        }
+      ]
+    },
+    {
+      "lecture_id": 4,
+      "topic": "Advanced Selenium WebDriver",
+      "questions": [
+        {
+          "question": "Какой тип ожидания (Wait) указывает WebDriver ждать определенное условие (например, видимость элемента) до истечения таймаута?",
+          "options": ["Implicit Wait", "Explicit Wait", "Static Wait", "Thread.sleep()"],
+          "answer": "Explicit Wait"
+        },
+        {
+          "question": "Какой класс используется для задания условий в Explicit Wait?",
+          "options": ["ExpectedConditions", "WaitConditions", "SeleniumConditions", "TimeOutConditions"],
+          "answer": "ExpectedConditions"
+        },
+        {
+          "question": "В чем главное отличие Fluent Wait от Explicit Wait?",
+          "options": ["Fluent Wait позволяет настроить интервал опроса (polling frequency) и игнорировать исключения", "Fluent Wait работает только в Chrome", "Explicit Wait не имеет таймаута", "Fluent Wait устарел"],
+          "answer": "Fluent Wait позволяет настроить интервал опроса (polling frequency) и игнорировать исключения"
+        },
+        {
+          "question": "Что такое Page Object Model (POM)?",
+          "options": ["Паттерн проектирования, создающий репозиторий объектов (Object Repository) для элементов веб-страницы", "Инструмент для создания скриншотов", "Модель базы данных", "Тип тестирования производительности"],
+          "answer": "Паттерн проектирования, создающий репозиторий объектов (Object Repository) для элементов веб-страницы"
+        },
+        {
+          "question": "Какая аннотация используется в Page Factory для поиска элементов?",
+          "options": ["@Find", "@Locate", "@FindBy", "@Search"],
+          "answer": "@FindBy"
+        },
+        {
+          "question": "Какой метод используется для инициализации элементов в Page Factory?",
+          "options": ["PageFactory.initElements()", "PageFactory.start()", "Page.initialize()", "Driver.init()"],
+          "answer": "PageFactory.initElements()"
+        },
+        {
+          "question": "Какой класс в Selenium используется для эмуляции сложных действий мыши и клавиатуры (drag and drop, hover)?",
+          "options": ["Action", "Actions", "Interaction", "MouseEvents"],
+          "answer": "Actions"
+        },
+        {
+          "question": "Какой метод класса Actions перемещает курсор мыши в центр элемента (hover effect)?",
+          "options": ["moveToElement()", "hover()", "mouseOver()", "focus()"],
+          "answer": "moveToElement()"
+        },
+        {
+          "question": "Какое преимущество дает использование Page Object Model?",
+          "options": ["Уменьшение дублирования кода и упрощение поддержки тестов", "Автоматическое исправление багов", "Увеличение скорости выполнения тестов в 2 раза", "Не нужно писать код на Java"],
+          "answer": "Уменьшение дублирования кода и упрощение поддержки тестов"
+        },
+        {
+          "question": "Какой метод Actions выполняет нажатие и удержание левой кнопки мыши?",
+          "options": ["clickAndHold()", "hold()", "press()", "mouseDown()"],
+          "answer": "clickAndHold()"
+        },
+        {
+          "question": "Какой метод используется для перетаскивания элемента из одной точки в другую?",
+          "options": ["dragAndDrop()", "moveAndDrop()", "slide()", "shift()"],
+          "answer": "dragAndDrop()"
+        },
+        {
+          "question": "Что произойдет, если Explicit Wait не найдет элемент за отведенное время?",
+          "options": ["TimeoutException", "NullPointerException", "Тест продолжится без ошибки", "Браузер закроется"],
+          "answer": "TimeoutException"
+        },
+        {
+          "question": "Для чего используется метод .perform() в классе Actions?",
+          "options": ["Для выполнения (запуска) всей цепочки действий", "Для отмены действия", "Для паузы", "Для сохранения логов"],
+          "answer": "Для выполнения (запуска) всей цепочки действий"
+        },
+        {
+          "question": "Можно ли использовать Page Object Model без Page Factory?",
+          "options": ["Да, это просто паттерн, Page Factory — лишь оптимизация", "Нет, POM обязательно требует Page Factory", "Только в Python", "Только в старых версиях Selenium"],
+          "answer": "Да, это просто паттерн, Page Factory — лишь оптимизация"
+        },
+        {
+          "question": "Какой тип ожидания применяется глобально ко всем элементам драйвера сразу после настройки?",
+          "options": ["Implicit Wait", "Explicit Wait", "Fluent Wait", "Soft Wait"],
+          "answer": "Implicit Wait"
+        }
+      ]
+    },
+    {
+      "lecture_id": 5,
+      "topic": "TestNG Framework",
+      "questions": [
+        {
+          "question": "Что означает аббревиатура TestNG?",
+          "options": ["Test Next Generation", "Test New Gear", "Testing Native Group", "Test Node Generator"],
+          "answer": "Test Next Generation"
+        },
+        {
+          "question": "Какая аннотация помечает метод как тестовый кейс?",
+          "options": ["@Test", "@TestCase", "@Run", "@Check"],
+          "answer": "@Test"
+        },
+        {
+          "question": "Какая аннотация выполняет метод один раз перед запуском всех тестов в данном <test> теге XML файла?",
+          "options": ["@BeforeClass", "@BeforeSuite", "@BeforeTest", "@BeforeMethod"],
+          "answer": "@BeforeTest"
+        },
+        {
+          "question": "Какой метод выполняется перед КАЖДЫМ тестовым методом (@Test)?",
+          "options": ["@BeforeMethod", "@BeforeClass", "@BeforeTest", "@Setup"],
+          "answer": "@BeforeMethod"
+        },
+        {
+          "question": "В чем основное преимущество параллельного тестирования в TestNG?",
+          "options": ["Сокращение общего времени выполнения тестов", "Улучшение качества кода", "Автоматическое исправление багов", "Упрощение отчетов"],
+          "answer": "Сокращение общего времени выполнения тестов"
+        },
+        {
+          "question": "Какой недостаток может быть у параллельного тестирования?",
+          "options": ["Проблемы с зависимыми модулями (Interdependency) и потокобезопасностью", "Слишком быстрые тесты", "Невозможность использовать Java", "Отсутствие логов"],
+          "answer": "Проблемы с зависимыми модулями (Interdependency) и потокобезопасностью"
+        },
+        {
+          "question": "Что такое Listeners в TestNG?",
+          "options": ["Интерфейсы, которые изменяют поведение системы по умолчанию (например, логирование при падении)", "Люди, которые слушают тесты", "Микрофоны для записи звука", "Специальные драйверы"],
+          "answer": "Интерфейсы, которые изменяют поведение системы по умолчанию (например, логирование при падении)"
+        },
+        {
+          "question": "Какой Listener метод вызывается при успешном прохождении теста?",
+          "options": ["onTestSuccess", "onTestPass", "onSuccess", "testPassed"],
+          "answer": "onTestSuccess"
+        },
+        {
+          "question": "Какой класс в TestNG используется для добавления логов в отчет?",
+          "options": ["Reporter", "Logger", "Printer", "Writer"],
+          "answer": "Reporter"
+        },
+        {
+          "question": "Где по умолчанию создается папка с отчетами TestNG?",
+          "options": ["test-output", "target", "reports", "logs"],
+          "answer": "test-output"
+        },
+        {
+          "question": "Как называется файл отчета TestNG, который можно отправить по почте?",
+          "options": ["emailable-report.html", "summary.html", "index.html", "testng-results.xml"],
+          "answer": "emailable-report.html"
+        },
+        {
+          "question": "Можно ли группировать тесты в TestNG (например, 'smoke', 'regression')?",
+          "options": ["Да, используя параметры аннотации @Test(groups={...})", "Нет, это невозможно", "Только через создание разных классов", "Только в платной версии"],
+          "answer": "Да, используя параметры аннотации @Test(groups={...})"
+        },
+        {
+          "question": "Для чего используется @BeforeSuite?",
+          "options": ["Запускается один раз перед всеми тестами во всем наборе (Suite)", "Запускается перед каждым классом", "Запускается перед каждым методом", "Запускается перед запуском браузера"],
+          "answer": "Запускается один раз перед всеми тестами во всем наборе (Suite)"
+        },
+        {
+          "question": "Какая библиотека логирования часто используется вместе с Selenium и TestNG (упомянута в лекции)?",
+          "options": ["Log4j", "System.out", "ConsoleLog", "JavaLog"],
+          "answer": "Log4j"
+        },
+        {
+          "question": "Что позволяет делать Data Parameterization в TestNG?",
+          "options": ["Запускать один и тот же тест с разными наборами данных", "Запускать тесты на разных языках", "Изменять параметры браузера", "Шифровать данные"],
+          "answer": "Запускать один и тот же тест с разными наборами данных"
+        }
+      ]
+    },
+    {
+      "lecture_id": 6,
+      "topic": "Cross-browser & Frameworks",
+      "questions": [
+        {
+          "question": "Что такое Cross-browser testing?",
+          "options": ["Проверка работы приложения в разных браузерах и ОС", "Тестирование только в Chrome", "Тестирование скорости интернета", "Сравнение мониторов"],
+          "answer": "Проверка работы приложения в разных браузерах и ОС"
+        },
+        {
+          "question": "Для чего нужны такие инструменты, как BrowserStack и SauceLabs?",
+          "options": ["Это облачные платформы для кросс-браузерного и мобильного тестирования", "Это редакторы кода", "Это базы данных", "Это генераторы отчетов"],
+          "answer": "Это облачные платформы для кросс-браузерного и мобильного тестирования"
+        },
+        {
+          "question": "Что такое Data-Driven Testing (DDT)?",
+          "options": ["Метод, где тестовые данные отделены от кода теста (хранятся в Excel, CSV, DB)", "Метод, где данные жестко прописаны в коде (Hardcoded)", "Тестирование базы данных", "Сбор статистики использования"],
+          "answer": "Метод, где тестовые данные отделены от кода теста (хранятся в Excel, CSV, DB)"
+        },
+        {
+          "question": "В чем отличие Keyword-Driven Testing от Data-Driven?",
+          "options": ["В Keyword-Driven действия описываются ключевыми словами (keywords) в файле, а не только данные", "Keyword-Driven использует только клавиатуру", "DDT использует только цифры", "Это одно и то же"],
+          "answer": "В Keyword-Driven действия описываются ключевыми словами (keywords) в файле, а не только данные"
+        },
+        {
+          "question": "Как называется фреймворк, сочетающий Data-Driven и Keyword-Driven подходы?",
+          "options": ["Hybrid Driven Framework", "Mixed Framework", "Combo Testing", "Dual Framework"],
+          "answer": "Hybrid Driven Framework"
+        },
+        {
+          "question": "Какая Java-библиотека используется для работы с файлами Microsoft Office (Excel)?",
+          "options": ["Apache POI", "Java Office", "OpenXML", "Apache Excel"],
+          "answer": "Apache POI"
+        },
+        {
+          "question": "Какое преимущество дает Data-Driven Testing?",
+          "options": ["Позволяет легко менять данные без изменения кода и покрывать больше кейсов", "Ускоряет выполнение одного теста", "Уменьшает количество багов в коде приложения", "Не требует знаний программирования"],
+          "answer": "Позволяет легко менять данные без изменения кода и покрывать больше кейсов"
+        },
+        {
+          "question": "Какой файл часто используется как источник данных в DDT?",
+          "options": ["Excel (.xls, .xlsx)", "MP3", "JPG", "EXE"],
+          "answer": "Excel (.xls, .xlsx)"
+        },
+        {
+          "question": "Какая команда используется в Windows для установки переменных окружения (например, для BrowserStack)?",
+          "options": ["setx", "put", "env", "config"],
+          "answer": "setx"
+        },
+        {
+          "question": "Какой вид тестирования гарантирует, что сайт выглядит корректно на разных разрешениях экрана?",
+          "options": ["Compatibility / Layout Testing", "Unit Testing", "Security Testing", "API Testing"],
+          "answer": "Compatibility / Layout Testing"
+        },
+        {
+          "question": "Что такое 'Apache MetaModel'?",
+          "options": ["Библиотека для унифицированного доступа к различным хранилищам данных (Datastores)", "Модель мета-данных HTML", "Плагин для браузера", "Инструмент для создания графиков"],
+          "answer": "Библиотека для унифицированного доступа к различным хранилищам данных (Datastores)"
+        },
+        {
+          "question": "Почему важно проводить Cross-browser testing?",
+          "options": ["Потому что браузеры могут по-разному рендерить HTML/CSS/JS", "Чтобы потратить больше времени", "Потому что так сказал заказчик", "Это не важно"],
+          "answer": "Потому что браузеры могут по-разному рендерить HTML/CSS/JS"
+        },
+        {
+          "question": "Можно ли использовать BrowserStack для тестирования локальных (local) серверов?",
+          "options": ["Да, через специальный туннель (Local Testing)", "Нет, только публичные сайты", "Только если купить самый дорогой тариф", "Нет, это невозможно технически"],
+          "answer": "Да, через специальный туннель (Local Testing)"
+        },
+        {
+          "question": "Какой элемент чек-листа кросс-браузерного тестирования проверяет шрифты?",
+          "options": ["Font size validation", "Color validation", "Image validation", "Link validation"],
+          "answer": "Font size validation"
+        },
+        {
+          "question": "В чем суть Hybrid Framework?",
+          "options": ["Ключевые слова (действия) и тестовые данные вынесены во внешние файлы", "Использование ручного и автоматического тестирования одновременно", "Использование Java и Python одновременно", "Тестирование на Windows и Mac одновременно"],
+          "answer": "Ключевые слова (действия) и тестовые данные вынесены во внешние файлы"
+        }
+      ]
+    },
+    {
+      "lecture_id": 7,
+      "topic": "Database & Performance Testing",
+      "questions": [
+        {
+          "question": "Что означает аббревиатура ACID в контексте транзакций базы данных?",
+          "options": ["Atomicity, Consistency, Isolation, Durability", "Accuracy, Consistency, Integrity, Durability", "Automated, Centralized, Integrated, Distributed", "Action, Code, Interface, Data"],
+          "answer": "Atomicity, Consistency, Isolation, Durability"
+        },
+        {
+          "question": "Какое свойство ACID гарантирует принцип 'все или ничего' (all-or-nothing)?",
+          "options": ["Atomicity", "Consistency", "Isolation", "Durability"],
+          "answer": "Atomicity"
+        },
+        {
+          "question": "Что проверяет структурное тестирование базы данных (Structural Database Testing)?",
+          "options": ["Схемы, таблицы, триггеры, хранимые процедуры", "Цвет кнопок на UI", "Скорость интернета", "Удобство интерфейса"],
+          "answer": "Схемы, таблицы, триггеры, хранимые процедуры"
+        },
+        {
+          "question": "Что такое ETL Testing?",
+          "options": ["Extract, Transform, Load - проверка точности данных при переносе из одной системы в другую", "End To Loop - тестирование циклов", "Error Tracking Log - анализ логов ошибок", "External Tool Loading - загрузка внешних инструментов"],
+          "answer": "Extract, Transform, Load - проверка точности данных при переносе из одной системы в другую"
+        },
+        {
+          "question": "Какой тип тестирования проверяет систему под нормальной и пиковой нагрузкой?",
+          "options": ["Performance Testing (Load & Stress)", "Unit Testing", "Usability Testing", "Regression Testing"],
+          "answer": "Performance Testing (Load & Stress)"
+        },
+        {
+          "question": "В чем отличие Load Testing от Stress Testing?",
+          "options": ["Load тестирует ожидаемую нагрузку, Stress тестирует предельные значения до отказа системы", "Load тестирует базу данных, Stress - интерфейс", "Load делается вручную, Stress - автоматически", "Нет отличий"],
+          "answer": "Load тестирует ожидаемую нагрузку, Stress тестирует предельные значения до отказа системы"
+        },
+        {
+          "question": "Какой SQL оператор используется для извлечения данных из базы?",
+          "options": ["SELECT", "UPDATE", "DELETE", "INSERT"],
+          "answer": "SELECT"
+        },
+        {
+          "question": "Что проверяет Schema Testing?",
+          "options": ["Соответствие форматов таблиц/вьюх/колонок между базой и UI (mapping)", "Скорость выполнения запросов", "Безопасность паролей", "Правильность написания кода на Java"],
+          "answer": "Соответствие форматов таблиц/вьюх/колонок между базой и UI (mapping)"
+        },
+        {
+          "question": "Какой инструмент часто используется для Performance Testing (упомянут в лекции)?",
+          "options": ["JMeter", "Selenium IDE", "Appium", "Cucumber"],
+          "answer": "JMeter"
+        },
+        {
+          "question": "Что такое 'Data Integrity' (целостность данных)?",
+          "options": ["Данные точны, полны и согласованы во всех частях системы", "Данные зашифрованы", "Данные удалены", "Данные переведены на другой язык"],
+          "answer": "Данные точны, полны и согласованы во всех частях системы"
+        },
+        {
+          "question": "Какой тип базы данных тестируется с использованием JDBC?",
+          "options": ["Реляционные БД (Relational DBs)", "NoSQL БД", "Файловая система", "Excel таблицы"],
+          "answer": "Реляционные БД (Relational DBs)"
+        },
+        {
+          "question": "Что такое MongoDB?",
+          "options": ["NoSQL база данных", "Реляционная база данных", "Язык программирования", "Операционная система"],
+          "answer": "NoSQL база данных"
+        },
+        {
+          "question": "Что такое Trigger в базе данных?",
+          "options": ["Процедура, которая автоматически выполняется при определенном событии (INSERT/UPDATE/DELETE)", "Кнопка на клавиатуре", "Ошибка в коде", "Вид вируса"],
+          "answer": "Процедура, которая автоматически выполняется при определенном событии (INSERT/UPDATE/DELETE)"
+        },
+        {
+          "question": "Какое свойство ACID гарантирует, что данные сохранятся даже при сбое питания (commit)?",
+          "options": ["Durability", "Atomicity", "Consistency", "Isolation"],
+          "answer": "Durability"
+        },
+        {
+          "question": "Что такое Migration Testing?",
+          "options": ["Проверка отсутствия потери данных при переносе системы на новую платформу/БД", "Тестирование миграции птиц", "Переезд офиса в другое здание", "Смена языка программирования"],
+          "answer": "Проверка отсутствия потери данных при переносе системы на новую платформу/БД"
+        }
+      ]
+    },
+    {
+      "lecture_id": 8,
+      "topic": "BDD & Cucumber Framework",
+      "questions": [
+        {
+          "question": "Что означает BDD?",
+          "options": ["Behavior Driven Development", "Basic Data Design", "Binary Digit Decoding", "Bug Detection Device"],
+          "answer": "Behavior Driven Development"
+        },
+        {
+          "question": "Какой язык используется для написания сценариев в Cucumber?",
+          "options": ["Gherkin", "Python", "Java", "Ruby"],
+          "answer": "Gherkin"
+        },
+        {
+          "question": "Какой формат имеют сценарии Gherkin?",
+          "options": ["Given - When - Then", "If - Then - Else", "Try - Catch - Finally", "Start - Run - Stop"],
+          "answer": "Given - When - Then"
+        },
+        {
+          "question": "В каком файле хранятся сценарии Gherkin?",
+          "options": ["Feature File (.feature)", "Java Class (.java)", "XML File (.xml)", "JSON File (.json)"],
+          "answer": "Feature File (.feature)"
+        },
+        {
+          "question": "Что такое Step Definition?",
+          "options": ["Код (например, на Java), который реализует шаги из Feature файла", "Определение шагов в документации", "Список багов", "План тестирования"],
+          "answer": "Код (например, на Java), который реализует шаги из Feature файла"
+        },
+        {
+          "question": "В чем основное отличие BDD от TDD?",
+          "options": ["BDD фокусируется на поведении системы с точки зрения пользователя (понятный язык), TDD - на реализации кода (тесты пишут программисты)", "BDD только для Python, TDD для Java", "BDD старее, чем TDD", "Нет отличий"],
+          "answer": "BDD фокусируется на поведении системы с точки зрения пользователя (понятный язык), TDD - на реализации кода (тесты пишут программисты)"
+        },
+        {
+          "question": "Что делает 'Scenario Outline' в Cucumber?",
+          "options": ["Позволяет запустить один сценарий несколько раз с разными данными (Data Tables)", "Описывает структуру базы данных", "Рисует график", "Удаляет сценарий"],
+          "answer": "Позволяет запустить один сценарий несколько раз с разными данными (Data Tables)"
+        },
+        {
+          "question": "Что такое Hooks в Cucumber?",
+          "options": ["Блоки кода, запускаемые до или после сценариев (@Before, @After)", "Крючки для ловли багов", "Связи между таблицами", "Типы переменных"],
+          "answer": "Блоки кода, запускаемые до или после сценариев (@Before, @After)"
+        },
+        {
+          "question": "Какое ключевое слово Gherkin описывает предварительные условия?",
+          "options": ["Given", "When", "Then", "And"],
+          "answer": "Given"
+        },
+        {
+          "question": "Какое ключевое слово Gherkin описывает действие пользователя?",
+          "options": ["When", "Given", "Then", "But"],
+          "answer": "When"
+        },
+        {
+          "question": "Какое ключевое слово Gherkin описывает ожидаемый результат?",
+          "options": ["Then", "When", "Given", "Background"],
+          "answer": "Then"
+        },
+        {
+          "question": "Какая библиотека Cucumber используется для .NET?",
+          "options": ["SpecFlow", "JBehave", "TestNG", "NUnit"],
+          "answer": "SpecFlow"
+        },
+        {
+          "question": "Главное преимущество BDD?",
+          "options": ["Улучшает коммуникацию между техническими и нетехническими участниками (бизнес, QA, dev)", "Ускоряет компиляцию кода", "Заменяет ручное тестирование", "Не требует написания кода"],
+          "answer": "Улучшает коммуникацию между техническими и нетехническими участниками (бизнес, QA, dev)"
+        },
+        {
+          "question": "Что такое TDD (Test Driven Development)?",
+          "options": ["Разработка через тестирование: сначала пишется тест (который падает), потом код", "Тестирование после разработки", "Тестирование документации", "Тестирование базы данных"],
+          "answer": "Разработка через тестирование: сначала пишется тест (который падает), потом код"
+        },
+        {
+          "question": "Может ли Cucumber работать с Selenium?",
+          "options": ["Да, Cucumber часто используется как обертка над Selenium для BDD тестов", "Нет, они несовместимы", "Только в версии 1.0", "Только с лицензией"],
+          "answer": "Да, Cucumber часто используется как обертка над Selenium для BDD тестов"
+        }
+      ]
+    },
+    {
+      "lecture_id": 9,
+      "topic": "API Testing",
+      "questions": [
+        {
+          "question": "Что означает API?",
+          "options": ["Application Programming Interface", "Advanced Program Integration", "Automated Processing Interface", "Apple Phone Integration"],
+          "answer": "Application Programming Interface"
+        },
+        {
+          "question": "Какой HTTP метод соответствует операции Read (чтение) в CRUD?",
+          "options": ["GET", "POST", "PUT", "DELETE"],
+          "answer": "GET"
+        },
+        {
+          "question": "Какой HTTP метод используется для создания (Create) нового ресурса?",
+          "options": ["POST", "GET", "PUT", "PATCH"],
+          "answer": "POST"
+        },
+        {
+          "question": "Какой HTTP статус код означает 'OK' (Успех)?",
+          "options": ["200", "404", "500", "201"],
+          "answer": "200"
+        },
+        {
+          "question": "Какой статус код означает 'Not Found' (Не найдено)?",
+          "options": ["404", "200", "503", "401"],
+          "answer": "404"
+        },
+        {
+          "question": "Какой статус код означает 'Internal Server Error' (Ошибка сервера)?",
+          "options": ["500", "400", "200", "302"],
+          "answer": "500"
+        },
+        {
+          "question": "В чем основное отличие REST от SOAP?",
+          "options": ["REST - это архитектурный стиль (гибкий, использует JSON/HTTP), SOAP - это протокол (строгий, XML)", "REST использует только XML", "SOAP быстрее", "REST платный"],
+          "answer": "REST - это архитектурный стиль (гибкий, использует JSON/HTTP), SOAP - это протокол (строгий, XML)"
+        },
+        {
+          "question": "Какой формат данных чаще всего используется в REST API?",
+          "options": ["JSON", "HTML", "Binary", "Text"],
+          "answer": "JSON"
+        },
+        {
+          "question": "Какая Java библиотека используется для автоматизации REST API тестов?",
+          "options": ["RestAssured", "Selenium", "JUnit", "Mockito"],
+          "answer": "RestAssured"
+        },
+        {
+          "question": "Для чего используется Swagger?",
+          "options": ["Для документирования и визуализации RESTful API", "Для взлома паролей", "Для создания базы данных", "Для написания UI тестов"],
+          "answer": "Для документирования и визуализации RESTful API"
+        },
+        {
+          "question": "Для чего используется Postman?",
+          "options": ["Инструмент для ручного и автоматизированного тестирования API", "Почтовый клиент", "Браузер", "Редактор кода"],
+          "answer": "Инструмент для ручного и автоматизированного тестирования API"
+        },
+        {
+          "question": "Какой HTTP метод используется для обновления (Update) существующего ресурса целиком?",
+          "options": ["PUT", "POST", "GET", "HEAD"],
+          "answer": "PUT"
+        },
+        {
+          "question": "Что такое Endpoint?",
+          "options": ["Конкретный URL адрес, по которому доступен API ресурс", "Конец провода", "Точка останова в коде", "Последний тест"],
+          "answer": "Конкретный URL адрес, по которому доступен API ресурс"
+        },
+        {
+          "question": "Какое преимущество SOAP перед REST?",
+          "options": ["Встроенная обработка ошибок и безопасность (WS-Security), подходит для сложных энтерпрайз систем", "Легкость использования", "Использование JSON", "Работает только в браузере"],
+          "answer": "Встроенная обработка ошибок и безопасность (WS-Security), подходит для сложных энтерпрайз систем"
+        },
+        {
+          "question": "Какой синтаксис использует RestAssured?",
+          "options": ["Given - When - Then (как в BDD)", "If - Else", "Try - Catch", "Select - From - Where"],
+          "answer": "Given - When - Then (как в BDD)"
+        }
+      ]
+    },
+    {
+      "lecture_id": 10,
+      "topic": "Microservices Testing & CI/CD",
+      "questions": [
+        {
+          "question": "Что такое микросервисная архитектура?",
+          "options": ["Приложение, состоящее из набора независимых сервисов, общающихся через API", "Одно большое монолитное приложение", "Приложение без базы данных", "Приложение только для мобильных телефонов"],
+          "answer": "Приложение, состоящее из набора независимых сервисов, общающихся через API"
+        },
+        {
+          "question": "Какой тип тестирования проверяет, что сервисы могут общаться друг с другом согласно соглашению (контракту)?",
+          "options": ["Contract Testing", "Unit Testing", "UI Testing", "Manual Testing"],
+          "answer": "Contract Testing"
+        },
+        {
+          "question": "Что такое End-to-End (E2E) тестирование в микросервисах?",
+          "options": ["Проверка всей системы целиком, как черный ящик, для достижения бизнес-целей", "Тестирование одной функции", "Проверка кода", "Тестирование базы данных"],
+          "answer": "Проверка всей системы целиком, как черный ящик, для достижения бизнес-целей"
+        },
+        {
+          "question": "Что такое Service Virtualization (Mocking/Stubbing)?",
+          "options": ["Имитация поведения зависимого сервиса (если он недоступен или сложен) для тестирования", "Виртуальная реальность", "Установка Windows на Mac", "Создание копии базы данных"],
+          "answer": "Имитация поведения зависимого сервиса (если он недоступен или сложен) для тестирования"
+        },
+        {
+          "question": "Зачем нужно выбирать 'High-Risk Services' для тестирования в первую очередь?",
+          "options": ["Чтобы снизить риски на ранних этапах и не тормозить CI/CD пайплайн тяжелыми тестами", "Потому что они самые легкие", "Потому что так сказал менеджер", "Это не нужно"],
+          "answer": "Чтобы снизить риски на ранних этапах и не тормозить CI/CD пайплайн тяжелыми тестами"
+        },
+        {
+          "question": "Что такое Unit Testing в контексте микросервисов?",
+          "options": ["Проверка отдельного компонента (метода, класса) внутри сервиса", "Проверка связи между сервисами", "Проверка всего приложения", "Проверка документации"],
+          "answer": "Проверка отдельного компонента (метода, класса) внутри сервиса"
+        },
+        {
+          "question": "Какой инструмент для CI/CD упоминается в лекции?",
+          "options": ["Jenkins", "Photoshop", "Word", "Excel"],
+          "answer": "Jenkins"
+        },
+        {
+          "question": "Что такое WireMock?",
+          "options": ["Библиотека для мокирования (имитации) веб-сервисов (HTTP-based APIs)", "Инструмент для рисования макетов", "Программа для создания кабелей", "Тип базы данных"],
+          "answer": "Библиотека для мокирования (имитации) веб-сервисов (HTTP-based APIs)"
+        },
+        {
+          "question": "Какова цель Integration Testing в микросервисах?",
+          "options": ["Проверка взаимодействия микросервисов как подсистемы", "Проверка одного метода", "Проверка UI", "Проверка установки Java"],
+          "answer": "Проверка взаимодействия микросервисов как подсистемы"
+        },
+        {
+          "question": "Что такое CI/CD?",
+          "options": ["Continuous Integration / Continuous Delivery (Delivery)", "Computer Interface / Computer Design", "Common Integration / Common Data", "Code Inspection / Code Delete"],
+          "answer": "Continuous Integration / Continuous Delivery (Delivery)"
+        },
+        {
+          "question": "В чем сложность тестирования микросервисов по сравнению с монолитом?",
+          "options": ["Множество зависимостей, распределенная природа, необходимость тестировать связи", "Нет сложностей, это проще", "Микросервисы не нужно тестировать", "Сложность только в языке программирования"],
+          "answer": "Множество зависимостей, распределенная природа, необходимость тестировать связи"
+        },
+        {
+          "question": "Что такое Consumer-Driven Contract?",
+          "options": ["Подход, где потребитель API (consumer) определяет ожидания от провайдера API", "Контракт на покупку софта", "Договор с заказчиком", "Тип лицензии"],
+          "answer": "Подход, где потребитель API (consumer) определяет ожидания от провайдера API"
+        },
+        {
+          "question": "Что проверяет 'Isolated Testing' микросервиса?",
+          "options": ["Работу сервиса в изоляции с использованием моков (без реальных зависимостей)", "Работу сервиса с реальной базой данных", "Работу сервиса с интернетом", "Работу сервиса с UI"],
+          "answer": "Работу сервиса в изоляции с использованием моков (без реальных зависимостей)"
+        },
+        {
+          "question": "Какой HTTP статус вернет мок-сервис, если он настроен правильно?",
+          "options": ["Тот, который мы задали в настройках мока (например, 200 или 500)", "Всегда 200", "Всегда 404", "Случайный"],
+          "answer": "Тот, который мы задали в настройках мока (например, 200 или 500)"
+        },
+        {
+          "question": "Для чего используется Docker в тестировании микросервисов?",
+          "options": ["Для контейнеризации сервисов и создания изолированного окружения", "Для написания кода", "Для рисования графиков", "Для отправки почты"],
+          "answer": "Для контейнеризации сервисов и создания изолированного окружения"
+        }
+      ]
+    }
+  ]
+}
+;
+// ↑↑↑ END RUSSIAN JSON ↑↑↑
+
+
+/* ═══════════════════════════════════════════════════════════════
+   ⚙️  APP ENGINE  —  не редактировать / do not edit below
+═══════════════════════════════════════════════════════════════ */
+const App = {
+  lang:       "en",
+  queue:      [],
+  idx:        0,
+  score:      0,
+  answered:   false,
+  lastMode:   null,
+  lastLecIdx: null,
+  curShuffled: [],
+  curAnswer:   "",
+
+  /* ── helpers ── */
+  data()    { return App.lang === "en" ? DATA_EN.lectures : DATA_RU.lectures; },
+  getMis()  { return JSON.parse(localStorage.getItem("sqa_mis") || "[]"); },
+  saveMis(a){ localStorage.setItem("sqa_mis", JSON.stringify(a)); },
+
+  show(id) {
+    document.querySelectorAll(".scr").forEach(s => s.classList.remove("on"));
+    document.getElementById(id).classList.add("on");
+  },
+
+  toast(msg, ms = 2800) {
+    const t = document.getElementById("toast");
+    t.innerText = msg;
+    t.classList.add("show");
+    setTimeout(() => t.classList.remove("show"), ms);
+  },
+
+  /* ── init ── */
+  init() {
+    this.buildLecGrid();
+    this.syncMistakesUI();
+  },
+
+  goHome() {
+    this.show("scr-home");
+    this.syncMistakesUI();
+    this.buildLecGrid();
+  },
+
+  /* ── lecture grid ── */
+  buildLecGrid() {
+    const g = document.getElementById("lec-grid");
+    const d = this.data();
+    if (!d || !d.length) {
+      g.innerHTML = `<p style="color:var(--muted);font-size:.82rem;grid-column:span 5">
+        ⚠️ No data loaded — paste your JSON above!</p>`;
+      document.getElementById("all-desc").innerText = "Paste JSON to load questions";
+      return;
+    }
+    const total = d.reduce((s, l) => s + l.questions.length, 0);
+    document.getElementById("all-desc").innerText = `All ${total} questions in order`;
+    g.innerHTML = d.map((lec, i) => `
+      <button class="btn-lec" onclick="App.startMode('lec',${i})" title="${lec.topic}">
+        L${lec.lecture_id}
+        <span>${lec.questions.length}q</span>
+      </button>`).join("");
+  },
+
+  /* ── mode starters ── */
+  startMode(mode, lecIdx = null) {
+    const d = this.data();
+    if (!d || !d.length) {
+      this.toast("⚠️ Paste your JSON data into the script first!");
+      return;
+    }
+
+    this.lastMode   = mode;
+    this.lastLecIdx = lecIdx;
+    this.idx   = 0;
+    this.score = 0;
+    this.queue = [];
+
+    if (mode === "all") {
+      d.forEach((l,li) => l.questions.forEach((_,qi) => this.queue.push({l:li,q:qi})));
+
+    } else if (mode === "random") {
+      let all = [];
+      d.forEach((l,li) => l.questions.forEach((_,qi) => all.push({l:li,q:qi})));
+      all.sort(() => Math.random() - .5);
+      this.queue = all.slice(0, 30);
+
+    } else if (mode === "lec") {
+      d[lecIdx].questions.forEach((_,qi) => this.queue.push({l:lecIdx,q:qi}));
+
+    } else if (mode === "mistakes") {
+      const mis = this.getMis();
+      if (!mis.length) { this.toast("🎉 No mistakes saved yet!"); return; }
+      this.queue = mis.map(id => {
+        const [l,q] = id.split("-").map(Number);
+        return (d[l] && d[l].questions[q]) ? {l,q} : null;
+      }).filter(Boolean);
+      if (!this.queue.length) { this.toast("No valid mistake entries."); return; }
+    }
+
+    if (!this.queue.length) { this.toast("No questions found."); return; }
+    this.renderQ();
+    this.show("scr-quiz");
+  },
+
+  startMistakes() { this.startMode("mistakes"); },
+  retrySame()     {
+    if (this.lastMode === "lec") this.startMode("lec", this.lastLecIdx);
+    else if (this.lastMode)      this.startMode(this.lastMode);
+    else                         this.goHome();
+  },
+
+  /* ── render question ── */
+  renderQ(keepShuffle = false) {
+    this.answered = false;
+    const ptr  = this.queue[this.idx];
+    const d    = this.data();
+    const lec  = d[ptr.l];
+    const qObj = lec.questions[ptr.q];
+
+    // header
+    document.getElementById("q-num").innerText = this.idx + 1;
+    document.getElementById("q-tot").innerText = this.queue.length;
+    document.getElementById("q-tag").innerText =
+      (this.lang === "en" ? "Lecture " : "Лекция ") + lec.lecture_id;
+
+    // progress
+    document.getElementById("pbar").style.width =
+      ((this.idx / this.queue.length) * 100) + "%";
+
+    // question text
+    document.getElementById("q-text").innerText = qObj.question;
+    this.curAnswer = qObj.answer;
+
+    // shuffle options (or keep if toggling lang)
+    if (!keepShuffle) {
+      this.curShuffled = [...qObj.options].sort(() => Math.random() - .5);
+    }
+
+    const letters = ["A","B","C","D"];
+    document.getElementById("opts").innerHTML = this.curShuffled.map((opt, i) => `
+      <button class="btn-opt" onclick="App.checkAnswer(this,${i})">
+        <span class="opt-ltr">${letters[i]}</span>
+        <span>${opt}</span>
+      </button>`).join("");
+
+    document.getElementById("btn-next").classList.remove("show");
+  },
+
+  /* ── check answer ── */
+  checkAnswer(btn, idx) {
+    if (this.answered) return;
+    this.answered = true;
+
+    const selected  = this.curShuffled[idx];
+    const correct   = this.curAnswer;
+    const isCorrect = selected === correct;
+    const ptr       = this.queue[this.idx];
+
+    document.querySelectorAll(".btn-opt").forEach((b, i) => {
+      b.disabled = true;
+      if (this.curShuffled[i] === correct) b.classList.add("correct");
+      else if (b === btn && !isCorrect)    b.classList.add("wrong");
+    });
+
+    if (isCorrect) {
+      this.score++;
+      this.removeMis(ptr.l, ptr.q);
+    } else {
+      this.addMis(ptr.l, ptr.q);
+    }
+
+    document.getElementById("btn-next").classList.add("show");
+  },
+
+  /* ── next ── */
+  next() {
+    if (this.idx < this.queue.length - 1) {
+      this.idx++;
+      this.renderQ();
+    } else {
+      this.showResult();
+    }
+  },
+
+  /* ── result ── */
+  showResult() {
+    const tot   = this.queue.length;
+    const wrong = tot - this.score;
+    const pct   = Math.round((this.score / tot) * 100);
+
+    const emoji = pct >= 80 ? "🎉" : pct >= 55 ? "💪" : "😤";
+    const title = pct >= 80 ? "Excellent work!" : pct >= 55 ? "Keep it up!" : "Need more practice!";
+
+    document.getElementById("r-emoji").innerText  = emoji;
+    document.getElementById("r-title").innerText  = title;
+    document.getElementById("r-score").innerText  = `${this.score} / ${tot}`;
+    document.getElementById("r-ok").innerText     = this.score;
+    document.getElementById("r-bad").innerText    = wrong;
+    document.getElementById("r-pct").innerText    = pct + "%";
+    document.getElementById("pbar").style.width   = "100%";
+
+    const misBtn = document.getElementById("r-mis-btn");
+    misBtn.style.display = this.getMis().length > 0 ? "inline-block" : "none";
+
+    this.show("scr-result");
+  },
+
+  /* ── mistakes ── */
+  addMis(l, q) {
+    const mis = this.getMis(); const id = `${l}-${q}`;
+    if (!mis.includes(id)) { mis.push(id); this.saveMis(mis); this.syncHdrCount(); }
+  },
+  removeMis(l, q) {
+    let mis = this.getMis().filter(x => x !== `${l}-${q}`);
+    this.saveMis(mis); this.syncHdrCount();
+  },
+  clearMistakes() {
+    if (!this.getMis().length) { this.toast("No mistakes to clear!"); return; }
+    if (confirm("Clear all saved mistakes?")) {
+      this.saveMis([]); this.syncMistakesUI(); this.toast("✅ All mistakes cleared!");
+    }
+  },
+  syncMistakesUI() {
+    const n = this.getMis().length;
+    this.syncHdrCount();
+    document.getElementById("mis-count-txt").innerText =
+      `${n} saved mistake${n !== 1 ? "s" : ""}`;
+    document.getElementById("mis-sub").innerText =
+      n > 0 ? "Click 'Practice' to work on them" : "No mistakes yet — great job! 🎉";
+  },
+  syncHdrCount() {
+    document.getElementById("hdr-cnt").innerText = this.getMis().length;
+  },
+
+  /* ── language ── */
+  toggleLang() {
+    this.lang = this.lang === "en" ? "ru" : "en";
+    document.getElementById("lang-btn").innerText = this.lang.toUpperCase();
+    this.buildLecGrid();
+
+    const quizOn = document.getElementById("scr-quiz").classList.contains("on");
+    if (quizOn) {
+      if (!this.answered) {
+        this.renderQ(true);  // keep shuffle order, just swap text
+      } else {
+        // already answered: just update question text + re-mark buttons
+        const ptr  = this.queue[this.idx];
+        const qObj = this.data()[ptr.l].questions[ptr.q];
+        document.getElementById("q-text").innerText = qObj.question;
+        this.curAnswer = qObj.answer;
+      }
+    }
+  }
+};
+
+App.init();
+</script>
+</body>
+</html>
